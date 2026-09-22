@@ -1,0 +1,6 @@
+Dataset,Rows before,Rows after,Cols before,Cols after,Empty tickets removed,Exact duplicates removed,Fully empty cols removed,Missing subject after,Missing body after
+german_normalized_50_5_2,13178,13178,5,5,0,0,None,0,0
+multi-lang3-4k,4000,4000,17,16,0,0,tag_9,0,0
+multi-lang-4-20k,20000,20000,15,15,0,0,None,0,0
+multi-lang-5-2-50-version,28587,28587,16,16,0,0,None,0,0
+german_normalized,2125,2125,5,5,0,0,None,0,0

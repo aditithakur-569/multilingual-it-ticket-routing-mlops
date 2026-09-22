@@ -1,0 +1,10 @@
+Metric,Value
+Input rows,52587
+Unique master rows,44278
+Duplicate rows consolidated,8309
+Rows represented in multiple source datasets,8308
+Unique queues,10
+Priorities,"high, low, medium"
+Ticket types,"Change, Incident, Problem, Request"
+Languages,"de, en, es, fr, pt"
+Unresolved core-label conflicts,0
