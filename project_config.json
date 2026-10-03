@@ -1,0 +1,53 @@
+{
+  "aws_region": "us-east-1",
+  "s3_bucket": "aai540-group3-tickets-390568313988-us-east-1",
+  "master_dataset": "Cleaned- Master Data set/multilingual_ticket_master_cleaned.csv",
+  "dataset_sha256": "c142eef90e9f58329ed6ac38f7a733350f3ca51bdb4aed4345a4baa8ea1a19aa",
+  "source_commit": "59cbbdd7f3d2fe9e54a1470ef11d6d8cd9cf4b59",
+  "rows": 44278,
+  "target": "queue",
+  "split_fractions": {
+    "train": 0.4,
+    "validation": 0.1,
+    "test": 0.1,
+    "production": 0.4
+  },
+  "s3_data": {
+    "master": {
+      "uri": "s3://aai540-group3-tickets-390568313988-us-east-1/datasets/c142eef90e9f/split-v1-seed42/cleaned/master.csv",
+      "version_id": "3CxAP7B1MtXymzkYZwNS5AFWJ0lZalSU"
+    },
+    "train": {
+      "uri": "s3://aai540-group3-tickets-390568313988-us-east-1/datasets/c142eef90e9f/split-v1-seed42/splits/train/train.csv",
+      "version_id": "uLc4u_l5fgp.zsc.79.ndoGtD69_vdiE"
+    },
+    "validation": {
+      "uri": "s3://aai540-group3-tickets-390568313988-us-east-1/datasets/c142eef90e9f/split-v1-seed42/splits/validation/validation.csv",
+      "version_id": "WP_cMc_hw5eatSCRZgpbXlbU76CVdX9h"
+    },
+    "test": {
+      "uri": "s3://aai540-group3-tickets-390568313988-us-east-1/datasets/c142eef90e9f/split-v1-seed42/splits/test/test.csv",
+      "version_id": "AP02k.QrisYCHUnbLRuMfwesACXLSBQP"
+    },
+    "production": {
+      "uri": "s3://aai540-group3-tickets-390568313988-us-east-1/datasets/c142eef90e9f/split-v1-seed42/splits/production/production.csv",
+      "version_id": "ueVaDs4yd6YU6A5Jle_B0tyo7o4H4aT0"
+    },
+    "production_labels": {
+      "uri": "s3://aai540-group3-tickets-390568313988-us-east-1/datasets/c142eef90e9f/split-v1-seed42/ground_truth/production_labels.csv",
+      "version_id": "ZwrRS1ROPyAcmAr3Otn16Yk9faI5N7ox"
+    },
+    "master_parquet": {
+      "uri": "s3://aai540-group3-tickets-390568313988-us-east-1/catalog/c142eef90e9f/master/master.parquet",
+      "version_id": "kaLFCq.VPXmfjxRse_ZvTE1TJn6Z0f2y"
+    }
+  },
+  "split_seed": 42,
+  "athena": {
+    "database": "aai540_group3",
+    "master_table": "tickets_master",
+    "master_location": "s3://aai540-group3-tickets-390568313988-us-east-1/catalog/c142eef90e9f/master/",
+    "query_output": "s3://aai540-group3-tickets-390568313988-us-east-1/athena-results/",
+    "workgroup": "primary"
+  }
+}
