@@ -49,5 +49,55 @@
     "master_location": "s3://aai540-group3-tickets-390568313988-us-east-1/catalog/c142eef90e9f/master/",
     "query_output": "s3://aai540-group3-tickets-390568313988-us-east-1/athena-results/",
     "workgroup": "primary"
+  },
+  "feature_store": {
+    "feature_group_name": "aai540-group3-tickets-c142eef90e9f-v1",
+    "feature_group_arn": "arn:aws:sagemaker:us-east-1:390568313988:feature-group/aai540-group3-tickets-c142eef90e9f-v1",
+    "execution_role_arn": "arn:aws:iam::390568313988:role/LabRole",
+    "offline_s3_uri": "s3://aai540-group3-tickets-390568313988-us-east-1/feature-store/",
+    "model_input_columns": [
+      "combined_text",
+      "language",
+      "has_subject",
+      "subject_char_count",
+      "body_char_count",
+      "text_char_count",
+      "subject_word_count",
+      "body_word_count",
+      "text_word_count"
+    ],
+    "target_column": "queue",
+    "feature_event_time": 1791069813.91401,
+    "database": "sagemaker_featurestore",
+    "table": "aai540_group3_tickets_c142eef90e9f_v1_1791068947",
+    "retrieval_query_id": "9b502988-5fcb-463b-9e72-b47cf7917d2c",
+    "retrieval_result_uri": "s3://aai540-group3-tickets-390568313988-us-east-1/athena-results/9b502988-5fcb-463b-9e72-b47cf7917d2c.csv",
+    "datasets": {
+      "train": {
+        "uri": "s3://aai540-group3-tickets-390568313988-us-east-1/features/c142eef90e9f/v1/1791069813914010/train.csv",
+        "version_id": "EhnzhzJ8jWpfHww4aXrrH7VnZoBKmlJq",
+        "rows": 17710,
+        "sha256": "02097566a767f6d195fdea1c3c556faa69805d9ec3ef9952d08de30542cb962c"
+      },
+      "validation": {
+        "uri": "s3://aai540-group3-tickets-390568313988-us-east-1/features/c142eef90e9f/v1/1791069813914010/validation.csv",
+        "version_id": "DM7G85YB4.48liLi7mhxh504rmd11yfU",
+        "rows": 4428,
+        "sha256": "b746b453ddc5e4e30eb78713a21c33d79be1576188dc75579e9d2795fec8238a"
+      }
+    },
+    "text_column": "combined_text",
+    "categorical_columns": [
+      "language"
+    ],
+    "numeric_columns": [
+      "has_subject",
+      "subject_char_count",
+      "body_char_count",
+      "text_char_count",
+      "subject_word_count",
+      "body_word_count",
+      "text_word_count"
+    ]
   }
 }
