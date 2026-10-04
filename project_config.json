@@ -182,5 +182,46 @@
       "macro_f1": 0.4463850582832519,
       "weighted_f1": 0.46530022063922544
     }
+  },
+  "deployment": {
+    "mode": "batch_transform",
+    "input": {
+      "uri": "s3://aai540-group3-tickets-390568313988-us-east-1/batch/aai540-group3-lr-20261004-003353/input/production.jsonl",
+      "version_id": "k6oVLq2UNvZvv6s5m33bnqNz05TsOG_c",
+      "sha256": "c94f3236dc6af9d02aec93962f1a2045a655f04ac8f27639207e2fa06f4728a8",
+      "rows": 17712
+    },
+    "model_name": "aai540-group3-routing-ce725539a788",
+    "deployment_id": "ce725539a788",
+    "output_uri": "s3://aai540-group3-tickets-390568313988-us-east-1/batch/ce725539a788/predictions/",
+    "inference_source_sha256": {
+      "inference.py": "5278d0a6cb8e63b227575779f33ecc0a0a16d8acf05d3f4e0767461bebdb474c",
+      "requirements.txt": "95190c729e7895af223059a24ff676b189acbf1dcff486f7666b0318ce11a9ae"
+    },
+    "instance_type": "ml.m5.xlarge",
+    "job_name": "aai540-group3-batch-20261004-045734",
+    "capture_uri": "s3://aai540-group3-tickets-390568313988-us-east-1/batch/ce725539a788/capture/",
+    "status": "Completed",
+    "prediction_count": 17712,
+    "prediction_artifacts": [
+      {
+        "uri": "s3://aai540-group3-tickets-390568313988-us-east-1/batch/ce725539a788/predictions/production.jsonl.out",
+        "version_id": "lepv2pFNgM3fJVhMHweJ2DLylAgqonPk",
+        "sha256": "9c74bba5e20dd8dc907a65a79dc849ebef08cfc99d00bb6e56d6104bb825d8af"
+      }
+    ]
+  },
+  "monitoring": {
+    "production_quality": {
+      "uri": "s3://aai540-group3-tickets-390568313988-us-east-1/monitoring/aai540-group3-batch-20261004-045734/production_quality.json",
+      "version_id": "KyeOj7N6z3A07Y311KduKs4BL3yF0lJn",
+      "metrics": {
+        "evaluation_split": "simulated_production",
+        "tickets": 17712,
+        "accuracy": 0.4591237579042457,
+        "macro_f1": 0.4379727744255188,
+        "weighted_f1": 0.4605194849461991
+      }
+    }
   }
 }
