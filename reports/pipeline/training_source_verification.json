@@ -1,0 +1,10 @@
+{
+  "uri": "s3://aai540-group3-tickets-390568313988-us-east-1/training-code/aai540-group3-lr-20261004-003353/source/sourcedir.tar.gz",
+  "version_id": "L2Qv1_SA.ngieLmp_Hh_wQWfxur0ssxn",
+  "sha256": "c22ca165cf3773474e912ddc83468f633cf7e143429d08f35881297d85aa76a4",
+  "file_sha256": {
+    "train.py": "26edce87f2ff7584a5daf14948e18e00c9a26346a17d2176d883a25811985b19",
+    "requirements.txt": "95190c729e7895af223059a24ff676b189acbf1dcff486f7666b0318ce11a9ae",
+    "training_config.json": "65e1ec251991b1b63bee29c31f47bdb4fa5cf32b54163cde184a832f7a90bd35"
+  }
+}

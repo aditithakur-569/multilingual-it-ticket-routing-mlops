@@ -434,5 +434,43 @@
     "model_package_version": 1,
     "status": "Completed",
     "approval_status": "PendingManualApproval"
+  },
+  "ml_pipeline": {
+    "pipeline_name": "aai540-group3-ticket-routing-pipeline",
+    "code_id": "24265b4a939ecdb3",
+    "code_prefix_uri": "s3://aai540-group3-tickets-390568313988-us-east-1/pipeline-code/24265b4a939ecdb3/scripts/",
+    "source_artifacts": {
+      "verify_data.py": {
+        "uri": "s3://aai540-group3-tickets-390568313988-us-east-1/pipeline-code/24265b4a939ecdb3/scripts/verify_data.py",
+        "version_id": "2LaldkDxed0nIyY5SvN6QIskX1XPGJP4",
+        "sha256": "22d4ead8038f2ef03f81831103b0faf79eb4ef568d5b52f4d4b0131571c179ed"
+      },
+      "prepare_evaluation.py": {
+        "uri": "s3://aai540-group3-tickets-390568313988-us-east-1/pipeline-code/24265b4a939ecdb3/scripts/prepare_evaluation.py",
+        "version_id": ".WYCx_LyuzY4UesI5nrsLSsgcPvPCKna",
+        "sha256": "23d78d99986c12a3087a250091a114137d37fe1b85a49f394b1925c24c7e49df"
+      },
+      "pipeline_config.json": {
+        "uri": "s3://aai540-group3-tickets-390568313988-us-east-1/pipeline-code/24265b4a939ecdb3/scripts/pipeline_config.json",
+        "version_id": "FwZs5Ov62UaeDdxvPrmQGUbrvdwQG2Kw",
+        "sha256": "08bf6e1677eecdda807d5a926d6864a9f45fbe5cc0af2af351a506c58c684b75"
+      }
+    },
+    "training_source": {
+      "uri": "s3://aai540-group3-tickets-390568313988-us-east-1/pipeline-code/24265b4a939ecdb3/training/sourcedir.tar.gz",
+      "version_id": "20OxXAsuZnx9Hb8Lm7WvRVsWdscwNSvq",
+      "sha256": "c22ca165cf3773474e912ddc83468f633cf7e143429d08f35881297d85aa76a4"
+    },
+    "definition_file": "src/ticket_pipeline/pipeline_definition.json",
+    "definition_sha256": "3668b5264c4f3a0256211eb1298980dbbbb0f6de974539bcf61229989289f6f4",
+    "quality_gate": {
+      "minimum_validation_macro_f1": 0.4,
+      "require_accuracy_above_benchmark": true,
+      "registration_approval_status": "PendingManualApproval",
+      "purpose": "Course demonstration gate; not operational approval."
+    },
+    "pipeline_arn": "arn:aws:sagemaker:us-east-1:390568313988:pipeline/aai540-group3-ticket-routing-pipeline",
+    "status": "Active",
+    "definition_registered": true
   }
 }

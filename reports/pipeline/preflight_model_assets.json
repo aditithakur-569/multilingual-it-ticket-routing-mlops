@@ -1,0 +1,26 @@
+{
+  "training_job_name": "aai540-group3-lr-20261004-003353",
+  "model_artifact": {
+    "uri": "s3://aai540-group3-tickets-390568313988-us-east-1/training-output/aai540-group3-lr-20261004-003353/output/model.tar.gz",
+    "version_id": "0mD8gr6TzZoUt1yzVLVR9U0XjYPLr94u",
+    "sha256": "faf5107639e5c4c05f37b2bed8e69192c6894b081cb0cab0d99bf8274585e6bb"
+  },
+  "training_output_artifact": {
+    "uri": "s3://aai540-group3-tickets-390568313988-us-east-1/training-output/aai540-group3-lr-20261004-003353/output/output.tar.gz",
+    "version_id": "ZYlq7uweH_R4IWEi_AZnwcysNX_RZHWY",
+    "sha256": "50e997b1155a09ce3976af9d09f83f141f1e1a75e4488f5a921c7e16f9866cbe"
+  },
+  "training_configuration_verified": true,
+  "queue_labels": [
+    "Billing and Payments",
+    "Customer Service",
+    "General Inquiry",
+    "Human Resources",
+    "IT Support",
+    "Product Support",
+    "Returns and Exchanges",
+    "Sales and Pre-Sales",
+    "Service Outages and Maintenance",
+    "Technical Support"
+  ]
+}
