@@ -222,6 +222,105 @@
         "macro_f1": 0.4379727744255188,
         "weighted_f1": 0.4605194849461991
       }
-    }
+    },
+    "cloudwatch": {
+      "namespace": "AAI540/TicketRouting",
+      "dimensions": [
+        {
+          "Name": "Project",
+          "Value": "aai540-group3"
+        },
+        {
+          "Name": "Environment",
+          "Value": "simulated-production"
+        }
+      ],
+      "last_published_at": "2026-10-04T05:32:08.307440+00:00",
+      "batch_job_name": "aai540-group3-batch-20261004-045734",
+      "metric_names": [
+        "ProductionAccuracy",
+        "ProductionMacroF1",
+        "ProductionWeightedF1",
+        "DataAlertCount",
+        "ModelQualityAlertCount",
+        "InfrastructureAlertCount",
+        "LanguageDistributionDistance",
+        "TextCharDistributionDistance",
+        "TextWordDistributionDistance",
+        "MissingSubjectRateIncrease",
+        "MissingBodyRateIncrease",
+        "EmptyTextRate",
+        "UnknownLanguageRate",
+        "UnseenLanguageRate",
+        "TrainingDurationSeconds",
+        "TrainingJobAlert",
+        "BatchDurationSeconds",
+        "BatchJobAlert"
+      ],
+      "dashboard_name": "AAI540-Group3-Ticket-Monitoring",
+      "dashboard_url": "https://console.aws.amazon.com/cloudwatch/home?region=us-east-1#dashboards:name=AAI540-Group3-Ticket-Monitoring",
+      "dashboard_window_start": "2026-10-04T05:27:08Z",
+      "dashboard_window_end": "2026-10-04T05:37:08Z",
+      "alarms": [
+        {
+          "name": "AAI540-Group3-DataQuality",
+          "arn": "arn:aws:cloudwatch:us-east-1:390568313988:alarm:AAI540-Group3-DataQuality",
+          "metric": "DataAlertCount",
+          "state": "INSUFFICIENT_DATA"
+        },
+        {
+          "name": "AAI540-Group3-Infrastructure",
+          "arn": "arn:aws:cloudwatch:us-east-1:390568313988:alarm:AAI540-Group3-Infrastructure",
+          "metric": "InfrastructureAlertCount",
+          "state": "OK"
+        },
+        {
+          "name": "AAI540-Group3-ModelQuality",
+          "arn": "arn:aws:cloudwatch:us-east-1:390568313988:alarm:AAI540-Group3-ModelQuality",
+          "metric": "ModelQualityAlertCount",
+          "state": "INSUFFICIENT_DATA"
+        }
+      ]
+    },
+    "artifacts": {
+      "training_data_baseline": {
+        "uri": "s3://aai540-group3-tickets-390568313988-us-east-1/monitoring/aai540-group3-batch-20261004-045734/training_data_baseline.json",
+        "version_id": "gHKuxvH6iR73dHenrgc2Je8Xtp5azFya",
+        "sha256": "c8614cde6091d7ccee3646ccb793c4d10470827073235e21f92f5a37483bf8ec"
+      },
+      "production_data_quality": {
+        "uri": "s3://aai540-group3-tickets-390568313988-us-east-1/monitoring/aai540-group3-batch-20261004-045734/production_data_quality.json",
+        "version_id": "NdH2NPV5J7EZtp.CJTZVc9_b9y9xSP.Q",
+        "sha256": "ccf3220f4d12cfcecd965b16c157561959375df6d1a93f2a2bb156810ccb4669"
+      },
+      "model_quality_checks": {
+        "uri": "s3://aai540-group3-tickets-390568313988-us-east-1/monitoring/aai540-group3-batch-20261004-045734/model_quality_checks.json",
+        "version_id": "6cDDmw_7xLhwc6yMcpC4tCxl_prZt9o9",
+        "sha256": "e324f6a30bd0f9cb5aefb7674aa399426e9a02d15c44a8db03ccedda24b4daa4"
+      },
+      "infrastructure_status": {
+        "uri": "s3://aai540-group3-tickets-390568313988-us-east-1/monitoring/aai540-group3-batch-20261004-045734/infrastructure_status.json",
+        "version_id": "BX3z3U.St8hB7Ixpz68AWMgA.ksqUSeq",
+        "sha256": "35f0ee165f1a3614ce6da1281d8c1ce6f65d518f609c1805a13850a2461f4595"
+      },
+      "cloudwatch_dashboard": {
+        "uri": "s3://aai540-group3-tickets-390568313988-us-east-1/monitoring/aai540-group3-batch-20261004-045734/cloudwatch_dashboard.json",
+        "version_id": "eZka7mk_aZ._1tBR5g36f0TdriYqyq6o",
+        "sha256": "5a9587a4157f08370c2c48403ccf84b2a8b96d8e98728a2e9df6f956ca55ceea"
+      },
+      "alarm_status": {
+        "uri": "s3://aai540-group3-tickets-390568313988-us-east-1/monitoring/aai540-group3-batch-20261004-045734/alarm_status.json",
+        "version_id": "ALb1L9Q90dsxBzT0iYEEQorrKMp8pTej",
+        "sha256": "d332aa32b063947e0c1c078e0833a5d0f3211f1acd19ef79643c0afd6d60736f"
+      }
+    },
+    "data_thresholds": {
+      "distribution_distance": 0.1,
+      "missing_rate_increase": 0.05,
+      "empty_text_rate": 0.0,
+      "unknown_language_rate": 0.0,
+      "unseen_language_rate": 0.0
+    },
+    "model_allowed_absolute_drop": 0.05
   }
 }

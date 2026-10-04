@@ -1,0 +1,245 @@
+{
+  "start": "2026-10-04T05:27:08Z",
+  "periodOverride": "inherit",
+  "widgets": [
+    {
+      "type": "text",
+      "x": 0,
+      "y": 0,
+      "width": 24,
+      "height": 4,
+      "properties": {
+        "markdown": "# Multilingual ticket routing \u2014 monitoring\nBatch job: `aai540-group3-batch-20261004-045734`\n\nSnapshot published: `2026-10-04T05:32:08.307440+00:00`\n\nMetrics are published when monitoring runs. This is not yet scheduled monitoring. Quality scores and data rates use a 0\u20131 scale. Zero alerts means the configured checks passed; it does not establish readiness for automatic routing."
+      }
+    },
+    {
+      "type": "metric",
+      "x": 0,
+      "y": 4,
+      "width": 12,
+      "height": 6,
+      "properties": {
+        "title": "Production model quality \u2014 higher is better",
+        "region": "us-east-1",
+        "view": "singleValue",
+        "sparkline": false,
+        "stat": "Average",
+        "period": 300,
+        "metrics": [
+          [
+            "AAI540/TicketRouting",
+            "ProductionAccuracy",
+            "Project",
+            "aai540-group3",
+            "Environment",
+            "simulated-production"
+          ],
+          [
+            "AAI540/TicketRouting",
+            "ProductionMacroF1",
+            "Project",
+            "aai540-group3",
+            "Environment",
+            "simulated-production"
+          ],
+          [
+            "AAI540/TicketRouting",
+            "ProductionWeightedF1",
+            "Project",
+            "aai540-group3",
+            "Environment",
+            "simulated-production"
+          ]
+        ],
+        "start": "2026-10-04T05:27:08Z",
+        "end": "2026-10-04T05:37:08Z",
+        "setPeriodToTimeRange": true
+      }
+    },
+    {
+      "type": "metric",
+      "x": 12,
+      "y": 4,
+      "width": 12,
+      "height": 6,
+      "properties": {
+        "title": "Triggered checks \u2014 zero means no alerts",
+        "region": "us-east-1",
+        "view": "singleValue",
+        "sparkline": false,
+        "stat": "Average",
+        "period": 300,
+        "metrics": [
+          [
+            "AAI540/TicketRouting",
+            "DataAlertCount",
+            "Project",
+            "aai540-group3",
+            "Environment",
+            "simulated-production"
+          ],
+          [
+            "AAI540/TicketRouting",
+            "ModelQualityAlertCount",
+            "Project",
+            "aai540-group3",
+            "Environment",
+            "simulated-production"
+          ],
+          [
+            "AAI540/TicketRouting",
+            "InfrastructureAlertCount",
+            "Project",
+            "aai540-group3",
+            "Environment",
+            "simulated-production"
+          ]
+        ],
+        "start": "2026-10-04T05:27:08Z",
+        "end": "2026-10-04T05:37:08Z",
+        "setPeriodToTimeRange": true
+      }
+    },
+    {
+      "type": "metric",
+      "x": 0,
+      "y": 10,
+      "width": 12,
+      "height": 6,
+      "properties": {
+        "title": "Data distribution changes \u2014 alert above 0.10",
+        "region": "us-east-1",
+        "view": "singleValue",
+        "sparkline": false,
+        "stat": "Average",
+        "period": 300,
+        "metrics": [
+          [
+            "AAI540/TicketRouting",
+            "LanguageDistributionDistance",
+            "Project",
+            "aai540-group3",
+            "Environment",
+            "simulated-production"
+          ],
+          [
+            "AAI540/TicketRouting",
+            "TextCharDistributionDistance",
+            "Project",
+            "aai540-group3",
+            "Environment",
+            "simulated-production"
+          ],
+          [
+            "AAI540/TicketRouting",
+            "TextWordDistributionDistance",
+            "Project",
+            "aai540-group3",
+            "Environment",
+            "simulated-production"
+          ]
+        ],
+        "start": "2026-10-04T05:27:08Z",
+        "end": "2026-10-04T05:37:08Z",
+        "setPeriodToTimeRange": true
+      }
+    },
+    {
+      "type": "metric",
+      "x": 12,
+      "y": 10,
+      "width": 12,
+      "height": 6,
+      "properties": {
+        "title": "AWS job duration \u2014 seconds",
+        "region": "us-east-1",
+        "view": "singleValue",
+        "sparkline": false,
+        "stat": "Average",
+        "period": 300,
+        "metrics": [
+          [
+            "AAI540/TicketRouting",
+            "TrainingDurationSeconds",
+            "Project",
+            "aai540-group3",
+            "Environment",
+            "simulated-production"
+          ],
+          [
+            "AAI540/TicketRouting",
+            "BatchDurationSeconds",
+            "Project",
+            "aai540-group3",
+            "Environment",
+            "simulated-production"
+          ]
+        ],
+        "start": "2026-10-04T05:27:08Z",
+        "end": "2026-10-04T05:37:08Z",
+        "setPeriodToTimeRange": true
+      }
+    },
+    {
+      "type": "metric",
+      "x": 0,
+      "y": 16,
+      "width": 24,
+      "height": 6,
+      "properties": {
+        "title": "Input quality \u2014 missing-rate increases and invalid-input rates",
+        "region": "us-east-1",
+        "view": "singleValue",
+        "sparkline": false,
+        "stat": "Average",
+        "period": 300,
+        "metrics": [
+          [
+            "AAI540/TicketRouting",
+            "MissingSubjectRateIncrease",
+            "Project",
+            "aai540-group3",
+            "Environment",
+            "simulated-production"
+          ],
+          [
+            "AAI540/TicketRouting",
+            "MissingBodyRateIncrease",
+            "Project",
+            "aai540-group3",
+            "Environment",
+            "simulated-production"
+          ],
+          [
+            "AAI540/TicketRouting",
+            "EmptyTextRate",
+            "Project",
+            "aai540-group3",
+            "Environment",
+            "simulated-production"
+          ],
+          [
+            "AAI540/TicketRouting",
+            "UnknownLanguageRate",
+            "Project",
+            "aai540-group3",
+            "Environment",
+            "simulated-production"
+          ],
+          [
+            "AAI540/TicketRouting",
+            "UnseenLanguageRate",
+            "Project",
+            "aai540-group3",
+            "Environment",
+            "simulated-production"
+          ]
+        ],
+        "start": "2026-10-04T05:27:08Z",
+        "end": "2026-10-04T05:37:08Z",
+        "setPeriodToTimeRange": true
+      }
+    }
+  ],
+  "end": "2026-10-04T05:37:08Z"
+}
