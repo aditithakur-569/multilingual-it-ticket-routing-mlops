@@ -1,0 +1,3 @@
+model,evaluation_split,accuracy,macro_f1,weighted_f1
+Majority-class benchmark,test,0.29561878952122855,0.045633606414502356,0.13490151489743357
+Managed Logistic Regression,test,0.4634146341463415,0.4463850582832519,0.46530022063922544

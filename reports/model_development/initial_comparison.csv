@@ -1,0 +1,4 @@
+model,evaluation_split,accuracy,macro_f1,weighted_f1
+Majority-class benchmark,validation,0.2958446251129178,0.04566050888811433,0.13508416134469234
+TF-IDF + metadata + Logistic Regression,validation,0.38504968383017163,0.3623128568008891,0.3889788287413365
+TF-IDF only + Logistic Regression,validation,0.38504968383017163,0.36250734856536737,0.38904903356892795

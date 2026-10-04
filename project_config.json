@@ -99,5 +99,88 @@
       "body_word_count",
       "text_word_count"
     ]
+  },
+  "model_development": {
+    "algorithm": "LogisticRegression",
+    "input_column": "combined_text",
+    "selection_metric": "validation_macro_f1",
+    "C": 10.0,
+    "class_weight": "balanced",
+    "solver": "lbfgs",
+    "max_iter": 2000,
+    "random_state": 42,
+    "tfidf": {
+      "max_features": 30000,
+      "ngram_range": [
+        1,
+        2
+      ],
+      "min_df": 2,
+      "max_df": 0.95,
+      "sublinear_tf": true
+    },
+    "sklearn_version": "1.7.2",
+    "validation_results": {
+      "candidate": "C=10.0, class_weight=balanced",
+      "accuracy": 0.45528455284552843,
+      "macro_f1": 0.4357895616215012,
+      "weighted_f1": 0.4564826417847142,
+      "iterations": 234
+    },
+    "feature_datasets": {
+      "train": {
+        "uri": "s3://aai540-group3-tickets-390568313988-us-east-1/features/c142eef90e9f/v1/1791069813914010/train.csv",
+        "version_id": "EhnzhzJ8jWpfHww4aXrrH7VnZoBKmlJq",
+        "rows": 17710,
+        "sha256": "02097566a767f6d195fdea1c3c556faa69805d9ec3ef9952d08de30542cb962c"
+      },
+      "validation": {
+        "uri": "s3://aai540-group3-tickets-390568313988-us-east-1/features/c142eef90e9f/v1/1791069813914010/validation.csv",
+        "version_id": "DM7G85YB4.48liLi7mhxh504rmd11yfU",
+        "rows": 4428,
+        "sha256": "b746b453ddc5e4e30eb78713a21c33d79be1576188dc75579e9d2795fec8238a"
+      }
+    }
+  },
+  "managed_training": {
+    "job_name": "aai540-group3-lr-20261004-003353",
+    "image_uri": "683313688378.dkr.ecr.us-east-1.amazonaws.com/sagemaker-scikit-learn:1.4-2-py312-cpu-py3",
+    "instance_type": "ml.m5.xlarge",
+    "sdk_version": "2.257.6",
+    "source_sha256": {
+      "train.py": "26edce87f2ff7584a5daf14948e18e00c9a26346a17d2176d883a25811985b19",
+      "requirements.txt": "95190c729e7895af223059a24ff676b189acbf1dcff486f7666b0318ce11a9ae",
+      "training_config.json": "65e1ec251991b1b63bee29c31f47bdb4fa5cf32b54163cde184a832f7a90bd35"
+    },
+    "status": "Completed",
+    "model_uri": "s3://aai540-group3-tickets-390568313988-us-east-1/training-output/aai540-group3-lr-20261004-003353/output/model.tar.gz",
+    "model_version_id": "0mD8gr6TzZoUt1yzVLVR9U0XjYPLr94u",
+    "output_uri": "s3://aai540-group3-tickets-390568313988-us-east-1/training-output/aai540-group3-lr-20261004-003353/output/output.tar.gz",
+    "output_version_id": "ZYlq7uweH_R4IWEi_AZnwcysNX_RZHWY",
+    "training_seconds": 119,
+    "validation_metrics": {
+      "accuracy": 0.45573622402890696,
+      "macro_f1": 0.43616079833313764,
+      "weighted_f1": 0.4569255989374723
+    }
+  },
+  "final_model": {
+    "training_job_name": "aai540-group3-lr-20261004-003353",
+    "model_uri": "s3://aai540-group3-tickets-390568313988-us-east-1/training-output/aai540-group3-lr-20261004-003353/output/model.tar.gz",
+    "model_version_id": "0mD8gr6TzZoUt1yzVLVR9U0XjYPLr94u",
+    "model_archive_sha256": "faf5107639e5c4c05f37b2bed8e69192c6894b081cb0cab0d99bf8274585e6bb",
+    "selection_metric": "validation_macro_f1",
+    "test_dataset": {
+      "uri": "s3://aai540-group3-tickets-390568313988-us-east-1/datasets/c142eef90e9f/split-v1-seed42/splits/test/test.csv",
+      "version_id": "AP02k.QrisYCHUnbLRuMfwesACXLSBQP"
+    },
+    "test_rows": 4428,
+    "test_metrics": {
+      "model": "Managed Logistic Regression",
+      "evaluation_split": "test",
+      "accuracy": 0.4634146341463415,
+      "macro_f1": 0.4463850582832519,
+      "weighted_f1": 0.46530022063922544
+    }
   }
 }
