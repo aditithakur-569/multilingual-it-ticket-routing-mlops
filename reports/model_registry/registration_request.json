@@ -1,0 +1,52 @@
+{
+  "ModelPackageGroupName": "aai540-group3-ticket-routing",
+  "ModelPackageDescription": "Tested TF-IDF and Logistic Regression ticket-routing model. Includes the serving code used for successful batch predictions. Course demonstration; requires review before operational use.",
+  "ModelApprovalStatus": "PendingManualApproval",
+  "InferenceSpecification": {
+    "Containers": [
+      {
+        "Image": "683313688378.dkr.ecr.us-east-1.amazonaws.com/sagemaker-scikit-learn:1.4-2-py312-cpu-py3",
+        "ModelDataUrl": "s3://aai540-group3-tickets-390568313988-us-east-1/training-output/aai540-group3-lr-20261004-003353/output/model.tar.gz",
+        "Environment": {
+          "SAGEMAKER_CONTAINER_LOG_LEVEL": "20",
+          "SAGEMAKER_MODEL_SERVER_WORKERS": "1",
+          "SAGEMAKER_PROGRAM": "inference.py",
+          "SAGEMAKER_REGION": "us-east-1",
+          "SAGEMAKER_SUBMIT_DIRECTORY": "s3://aai540-group3-tickets-390568313988-us-east-1/aai540-group3-routing-ce725539a788/sourcedir.tar.gz"
+        }
+      }
+    ],
+    "SupportedTransformInstanceTypes": [
+      "ml.m5.xlarge"
+    ],
+    "SupportedContentTypes": [
+      "application/jsonlines"
+    ],
+    "SupportedResponseMIMETypes": [
+      "application/jsonlines"
+    ]
+  },
+  "ModelMetrics": {
+    "ModelQuality": {
+      "Statistics": {
+        "ContentType": "application/json",
+        "S3Uri": "s3://aai540-group3-tickets-390568313988-us-east-1/registry/evaluations/8ec635dbd8d0d11d3f0eff7108d94d2932f1bdd4f04c3a392d27f891fdcbf78c/evaluation.json"
+      }
+    }
+  },
+  "CustomerMetadataProperties": {
+    "training_job": "aai540-group3-lr-20261004-003353",
+    "dataset_sha256": "c142eef90e9f58329ed6ac38f7a733350f3ca51bdb4aed4345a4baa8ea1a19aa",
+    "model_sha256": "faf5107639e5c4c05f37b2bed8e69192c6894b081cb0cab0d99bf8274585e6bb",
+    "model_s3_version": "0mD8gr6TzZoUt1yzVLVR9U0XjYPLr94u",
+    "inference_code_sha256": "625f5e308d689af92eaf480ba96c9fbcb9d5fd46798231c0943ff4a7f80b5112",
+    "inference_code_s3_version": "QDy7W_BEvov8Bs0qTlRXDmWHIacc5ggX",
+    "evaluation_sha256": "8ec635dbd8d0d11d3f0eff7108d94d2932f1bdd4f04c3a392d27f891fdcbf78c",
+    "evaluation_s3_version": "Rr2LB479OYvRgfc1PjFdj6EIVomZtQ7h",
+    "selection_metric": "validation_macro_f1",
+    "test_accuracy": "0.4634146341463415",
+    "test_macro_f1": "0.4463850582832519",
+    "test_weighted_f1": "0.46530022063922544"
+  },
+  "ClientToken": "2255ee68-83a7-5ae0-a623-6319a873ce83"
+}
