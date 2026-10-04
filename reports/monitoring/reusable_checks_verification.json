@@ -1,0 +1,17 @@
+{
+  "verified_at": "2026-10-04T14:35:10.039012+00:00",
+  "checks_script_sha256": "0f1d15ccef026aa4237519087c38e1952cf60b64ecedd82530293e6267703e3a",
+  "production_rows": 17712,
+  "production_metrics": {
+    "accuracy": 0.4591237579042457,
+    "macro_f1": 0.4379727744255188,
+    "weighted_f1": 0.4605194849461991
+  },
+  "tests_passed": [
+    "Data checks match saved notebook results",
+    "Empty text and unfamiliar language are detected",
+    "Accuracy and F1 match saved production results",
+    "Known metric example with an absent class",
+    "Incorrect predictions trigger all model quality alerts"
+  ]
+}

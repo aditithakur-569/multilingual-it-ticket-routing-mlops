@@ -235,7 +235,7 @@
           "Value": "simulated-production"
         }
       ],
-      "last_published_at": "2026-10-04T05:32:08.307440+00:00",
+      "last_published_at": "2026-10-04T14:41:32.148403+00:00",
       "batch_job_name": "aai540-group3-batch-20261004-045734",
       "metric_names": [
         "ProductionAccuracy",
@@ -259,8 +259,8 @@
       ],
       "dashboard_name": "AAI540-Group3-Ticket-Monitoring",
       "dashboard_url": "https://console.aws.amazon.com/cloudwatch/home?region=us-east-1#dashboards:name=AAI540-Group3-Ticket-Monitoring",
-      "dashboard_window_start": "2026-10-04T05:27:08Z",
-      "dashboard_window_end": "2026-10-04T05:37:08Z",
+      "dashboard_window_start": "2026-10-04T14:36:32Z",
+      "dashboard_window_end": "2026-10-04T14:46:32Z",
       "alarms": [
         {
           "name": "AAI540-Group3-DataQuality",
@@ -280,7 +280,8 @@
           "metric": "ModelQualityAlertCount",
           "state": "INSUFFICIENT_DATA"
         }
-      ]
+      ],
+      "dashboard_processing_job": "aai540-group3-monitor-20261004-143912"
     },
     "artifacts": {
       "training_data_baseline": {
@@ -321,6 +322,79 @@
       "unknown_language_rate": 0.0,
       "unseen_language_rate": 0.0
     },
-    "model_allowed_absolute_drop": 0.05
+    "model_allowed_absolute_drop": 0.05,
+    "processing_job": {
+      "job_name": "aai540-group3-monitor-20261004-143912",
+      "status": "Completed",
+      "image_uri": "683313688378.dkr.ecr.us-east-1.amazonaws.com/sagemaker-scikit-learn:1.4-2-py312-cpu-py3",
+      "role_arn": "arn:aws:iam::390568313988:role/LabRole",
+      "output_uri": "s3://aai540-group3-tickets-390568313988-us-east-1/monitoring-jobs/aai540-group3-monitor-20261004-143912/reports/",
+      "source_artifacts": {
+        "checks.py": {
+          "uri": "s3://aai540-group3-tickets-390568313988-us-east-1/monitoring-code/6cee6ea2c32d6191/checks.py",
+          "version_id": "lbclempAxS2uq7S0m6NwTLTNio3qK5V1",
+          "sha256": "0f1d15ccef026aa4237519087c38e1952cf60b64ecedd82530293e6267703e3a"
+        },
+        "run_monitoring.py": {
+          "uri": "s3://aai540-group3-tickets-390568313988-us-east-1/monitoring-code/6cee6ea2c32d6191/run_monitoring.py",
+          "version_id": "gOhUgiHW7KH_JlpUBudAHnbe8jj0KoZk",
+          "sha256": "3d4d5ec5c5182d24df69d798dc5e915250382b066202b719b9d151ca1b90921a"
+        },
+        "monitoring_config.json": {
+          "uri": "s3://aai540-group3-tickets-390568313988-us-east-1/monitoring-code/6cee6ea2c32d6191/monitoring_config.json",
+          "version_id": "4YqLV_YN7.NL7KCD1zdJ6ntkIw2FYfsU",
+          "sha256": "5944b67221fe7613251052fc595419158d43e3c83bd80981568289fc2b63f6cc"
+        }
+      },
+      "request_file": "reports/monitoring/processing_job_request.json",
+      "job_arn": "arn:aws:sagemaker:us-east-1:390568313988:processing-job/aai540-group3-monitor-20261004-143912",
+      "report_artifacts": {
+        "production_data_quality": {
+          "uri": "s3://aai540-group3-tickets-390568313988-us-east-1/monitoring-jobs/aai540-group3-monitor-20261004-143912/reports/production_data_quality.json",
+          "version_id": "7msxDdpxnkPzIxi8e9O7kETNw1.1wi6S",
+          "sha256": "ccf3220f4d12cfcecd965b16c157561959375df6d1a93f2a2bb156810ccb4669"
+        },
+        "production_quality": {
+          "uri": "s3://aai540-group3-tickets-390568313988-us-east-1/monitoring-jobs/aai540-group3-monitor-20261004-143912/reports/production_quality.json",
+          "version_id": "akMygDVgBeJZNAQDZogeUIX3JUaeMh_f",
+          "sha256": "fb51606d212aedb24dd00105ffda0db6ed45b03683f2e4ff8db1a2b294ac0485"
+        },
+        "model_quality_checks": {
+          "uri": "s3://aai540-group3-tickets-390568313988-us-east-1/monitoring-jobs/aai540-group3-monitor-20261004-143912/reports/model_quality_checks.json",
+          "version_id": "6dyzyNePzqBObtRcdfHb9YLupALJqt6Z",
+          "sha256": "d118cac2ac742721d9d671e3058a9ac06ba5ef96f6703100bdc2501d4fb37cf7"
+        },
+        "infrastructure_status": {
+          "uri": "s3://aai540-group3-tickets-390568313988-us-east-1/monitoring-jobs/aai540-group3-monitor-20261004-143912/reports/infrastructure_status.json",
+          "version_id": "FXQbmmxMfhKO5nuOx.To7HQNvTjlHfZA",
+          "sha256": "90799077c2d5c8ee4a6caa7ba196e54f4f49259468eaa769b5b7e837f8c50d6a"
+        },
+        "monitoring_config": {
+          "uri": "s3://aai540-group3-tickets-390568313988-us-east-1/monitoring-jobs/aai540-group3-monitor-20261004-143912/reports/monitoring_config.json",
+          "version_id": "8C2ZGCFbRgTGjdglD.Z8I2WKEoLmSsjs",
+          "sha256": "5944b67221fe7613251052fc595419158d43e3c83bd80981568289fc2b63f6cc"
+        },
+        "monitoring_summary": {
+          "uri": "s3://aai540-group3-tickets-390568313988-us-east-1/monitoring-jobs/aai540-group3-monitor-20261004-143912/reports/monitoring_summary.json",
+          "version_id": "f9DMkz6ymmnbBLhw1yei2ZVfOKM4x06f",
+          "sha256": "3a3a09da12ad0f128278854125c9cba512316db32e8a3465e28ef507be7f53e5"
+        }
+      },
+      "summary": {
+        "checked_at": "2026-10-04T14:41:32.148403+00:00",
+        "batch_job_name": "aai540-group3-batch-20261004-045734",
+        "production_rows": 17712,
+        "metrics": {
+          "accuracy": 0.4591237579042457,
+          "macro_f1": 0.4379727744255188,
+          "weighted_f1": 0.4605194849461991
+        },
+        "data_alert_count": 0,
+        "model_alert_count": 0,
+        "infrastructure_alert_count": 0,
+        "cloudwatch_metrics_published": true,
+        "metric_count": 18
+      }
+    }
   }
 }
