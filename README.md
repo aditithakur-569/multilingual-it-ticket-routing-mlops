@@ -1,127 +1,120 @@
 # Multilingual IT Ticket Routing MLOps
 
-AAI-540 Group 3: Aditi Jha, Beakal Zekaryas, and Saman Tavasoli.
+**AAI-540 — Group 3**
 
-This project classifies multilingual support tickets into 10 queues.
-It demonstrates data preparation, feature storage, model training,
-batch prediction, monitoring, and automated quality checks using AWS
-SageMaker and GitHub Actions.
+- Aditi Jha
+- Beakal Zekaryas
+- Saman Tavasoli
 
-The implemented model is TF-IDF with Logistic Regression. Its measured
-performance supports a course demonstration and further development;
-it is not sufficient for reliable autonomous ticket routing.
+We built a machine learning system to sort support tickets into 10 queues. The project covers data preparation, feature storage, model training, batch predictions, monitoring, and automated checks using AWS SageMaker and GitHub Actions.
+
+Our selected model uses TF-IDF and Logistic Regression. It performs better than our simple benchmark, but its current accuracy needs improvement before it could route real tickets without staff review.
 
 ## Project links
 
-- [Project board](https://github.com/users/aditithakur-569/projects/1)
-- [Dataset source](https://www.kaggle.com/datasets/tobiasbueck/multilingual-customer-support-tickets/data)
-- [Successful GitHub Actions run](https://github.com/aditithakur-569/multilingual-it-ticket-routing-mlops/actions/runs/37259244337)
+- [GitHub Projects board](https://github.com/users/aditithakur-569/projects/1)
+- [Kaggle dataset](https://www.kaggle.com/datasets/tobiasbueck/multilingual-customer-support-tickets/data)
+- [Recorded successful GitHub Actions run](https://github.com/aditithakur-569/multilingual-it-ticket-routing-mlops/actions/runs/37259244337)
 - AWS implementation branch: `sam-aws-implementation`
 
-## Data and evaluation splits
+## Start here
 
-We start from Beakal's cleaned master dataset: 44,278 tickets across
-10 queues and five languages: English, German, Spanish, French, and Portuguese.
+Open [master_project.ipynb](master_project.ipynb) to review the project from start to finish. It combines the code, charts, and saved results from our nine notebooks, with short explanations for each stage.
+
+The master notebook is for review. We have not run it as one continuous session. **Do not use Run All.** Some cells start AWS jobs or update project settings. Use the original notebooks to run or resume individual stages.
+
+Keep the scripts, tests, configuration, requirements, data, and reports with the project. The master notebook depends on those files.
+
+## Dataset and splits
+
+We used Beakal's cleaned master dataset of **44,278 tickets**, with **10 queues** and **five languages**: English, German, Spanish, French, and Portuguese.
 
 | Split | Tickets | Approximate share | Purpose |
 |---|---:|---:|---|
-| Training | 17,710 | 40% | Fit the model and learned transformations |
-| Validation | 4,428 | 10% | Compare features and select model settings |
+| Training | 17,710 | 40% | Train the model and build the text vocabulary |
+| Validation | 4,428 | 10% | Compare features and choose model settings |
 | Test | 4,428 | 10% | Evaluate the selected model |
-| Simulated production | 17,712 | 40% | Run batch predictions and demonstrate monitoring |
+| Simulated production | 17,712 | 40% | Run batch predictions and monitoring |
 
-Production inputs exclude queue labels. Labels are stored separately
-and joined after prediction to evaluate simulated production performance.
-The simulated production data is held-out historical data, not a live feed.
+We kept the production queue labels separate from the prediction inputs. After predictions were complete, we matched them with the labels to calculate the scores. These tickets came from the same original dataset; they are not a live stream of new tickets.
 
-## Features and selected model
+## Features and model
 
-Ticket subject and body are combined into one text input. Language and
-seven structural features were also prepared and stored with training
-and validation records in SageMaker Feature Store.
+We combined each ticket's subject and body into one text field. We also prepared language and seven features describing subject presence and text lengths, and saved the training and validation records in SageMaker Feature Store.
 
-We compared text-only Logistic Regression with a version using text,
-language, and structural features. The additional features did not
-meaningfully improve the initial validation results, so we selected
-the simpler text-only model.
+We compared text-only Logistic Regression with a model using text, language, and the extra features. The extra features made little difference in the initial validation results, so we selected text only.
 
-The selected configuration uses TF-IDF unigrams and bigrams with
-Logistic Regression (`C=10`, `class_weight="balanced"`).
-The majority-class benchmark always predicts Technical Support.
-Answer and tag fields are excluded to reduce leakage risk.
-Priority and type are excluded from model inputs because their
-availability at routing time was not established.
+Our selected model uses:
 
-## Recorded results
+- TF-IDF for individual words and two-word combinations.
+- Logistic Regression with `C=10` and `class_weight="balanced"`.
+- Macro F1 to choose model settings, giving each queue equal weight in the score.
+
+Our simple benchmark predicts **Technical Support** for every ticket because it is the largest training queue.
+
+We excluded answers and tags to reduce the risk of using information that would not be available when a ticket arrives. We also excluded priority and type because we had not confirmed whether they would be available at routing time.
+
+## Results
 
 | Model and evaluation split | Accuracy | Macro F1 | Weighted F1 |
 |---|---:|---:|---:|
 | Majority-class benchmark — test | 0.2956 | 0.0456 | 0.1349 |
+| Selected Logistic Regression — validation | 0.4557 | 0.4362 | 0.4569 |
 | Selected Logistic Regression — test | 0.4634 | 0.4464 | 0.4653 |
 | Selected Logistic Regression — simulated production | 0.4591 | 0.4380 | 0.4605 |
 
-Model settings were selected using validation results. Test and production
-results were not used for the reported hyperparameter selection.
-Detailed results, including performance by queue and language, are in
-`reports/model_development/`, `reports/managed_training/`, and
-`reports/final_test/`.
+We chose model settings using validation results. We did not use the test or production scores to tune those settings.
 
-Language and queue distributions are imbalanced. Spanish, French, and
-Portuguese evaluation samples are small, so their scores need cautious
-interpretation. Real-world routing benefits have not been measured.
+The selected model correctly predicted the queue for **46.34% of test tickets**. Results vary by queue and language. Spanish, French, and Portuguese have small test samples, so we need more data to judge performance in those languages. We have not measured business benefits in a real service desk.
 
-## Notebook order
+Detailed reports are saved in:
 
-| Order | Notebook | Purpose |
+- `reports/model_development/`
+- `reports/managed_training/`
+- `reports/final_test/`
+- `reports/monitoring/production_quality.json`
+
+## Notebook guide
+
+This is the review order used in the master notebook. Each original notebook contains its own setup and saved results.
+
+| Order | Notebook | What it covers |
 |---|---|---|
-| 1 | `project_setup.ipynb` | Validate the master data, create splits, store data in S3, and configure Athena |
-| 2 | `feature_engineering.ipynb` | Prepare features, ingest them into Feature Store, and verify retrieval |
-| 3 | `model_training.ipynb` | Compare models, tune on validation data, run managed training, and evaluate the test set |
-| 4 | `model_deployment.ipynb` | Run and verify batch predictions on simulated production tickets |
-| 5 | `model_monitoring.ipynb` | Check data, model quality, and job status; run managed monitoring and publish dashboard metrics |
-| 6 | `model_registry.ipynb` | Register the tested model and its evaluation evidence for review |
-| 7 | `ml_pipeline.ipynb` | Build and verify the automated training pipeline and prepare CI tests |
+| 1 | `project_setup.ipynb` | Dataset checks, splits, S3, Athena, and bucket security checks |
+| 2 | `raw_data_setup.ipynb` | Original CSV files, source comparisons, and S3 archive |
+| 3 | `EDA/multilingual-it-ticket-routing-Data- Analysis.ipynb` | Missing values, duplicates, ticket counts, and charts |
+| 4 | `feature_engineering.ipynb` | Feature preparation, Feature Store uploads, and retrieval checks |
+| 5 | `model_training.ipynb` | Benchmark, feature comparisons, tuning, SageMaker training, and test results |
+| 6 | `model_deployment.ipynb` | Batch predictions and simulated production results |
+| 7 | `model_monitoring.ipynb` | Data, model, and job checks; SageMaker monitoring job; CloudWatch |
+| 8 | `model_registry.ipynb` | Register the tested model and check its saved files |
+| 9 | `ml_pipeline.ipynb` | Automated training pipeline, failure test, and GitHub tests |
 
-Beakal's earlier notebooks are retained in `EDA/` and
-`Feature Engineering & Baseline Pipeline/`. Their original experiments
-precede the AWS implementation and may use different data splits.
+Beakal's earlier feature engineering and baseline experiments are in `Feature Engineering & Baseline Pipeline/`. They were completed before the AWS implementation and may use different data splits.
 
-## Run or resume the project
+## Run or resume a stage
 
-Use Python 3.12. For the AWS notebooks, use SageMaker Studio with an
-authorized execution role and an active lab session.
+We used Python 3.12 in SageMaker Studio with an active AWS Academy lab session and the lab execution role.
 
-Install the pinned notebook dependencies in the notebook kernel:
+Install the saved package versions in the notebook kernel:
 
 ```python
 %pip install -r requirements-notebooks.txt
 ```
 
-Restart the kernel after installation. The notebooks use SageMaker SDK
-2.257.6; their SDK v2 imports are not compatible with SDK v3.
+Restart the kernel after installation. The notebooks use SageMaker SDK **2.257.6** and its v2 imports.
 
-The notebooks were developed in SageMaker Studio with additional
-preinstalled packages, including boto3, PyArrow, and plotting tools.
-`requirements-notebooks.txt` pins the main ML and SageMaker dependencies;
-it is not a complete lockfile for a fresh operating system.
+SageMaker Studio also provided packages such as boto3, PyArrow, and plotting tools. `requirements-notebooks.txt` records the main ML and SageMaker packages; it does not include every dependency needed for a completely fresh environment.
 
-After a lab restart, run the relevant notebook's setup or restore cells
-to reload paths, `project_config.json`, and AWS clients. Check saved job
-names and status before running any cell that submits a job.
-Do not use Run All simply to restore a session.
+After restarting the lab, run the relevant setup or restore cells to load paths, `project_config.json`, and AWS clients. Check saved job names and their status before starting another job. Do not run the whole notebook just to restore the session.
 
-`project_config.json` records this lab account's resources, S3 versions,
-fingerprints, and completed jobs. Running in another AWS account requires
-updating the configuration and provisioning the required resources.
-S3 access requires AWS permissions.
+`project_config.json` contains this lab account's resources, S3 file versions, SHA-256 hashes, and job details. Running the project in another AWS account requires updating the settings and creating the required resources. Reading the S3 data requires AWS permissions.
 
-## Automated code checks and ML pipeline
+## GitHub tests and automated pipeline
 
-GitHub Actions checks Python syntax and runs 17 monitoring and inference
-unit tests on pushes to `main` and `sam-aws-implementation`, and on pull
-requests targeting `main`.
+GitHub Actions checks Python syntax and runs **17 tests** for monitoring and prediction code. The workflow runs on pushes to `main` and `sam-aws-implementation`, and on pull requests targeting `main`.
 
-To run the same checks locally from the repository root:
+To run the checks from the repository folder:
 
 ```bash
 python -m pip install -r requirements-ci.txt
@@ -129,56 +122,50 @@ python -m compileall -q src tests
 python -m unittest discover -s tests -p "test_*.py" -v
 ```
 
-These tests require no AWS credentials. Inference unit tests use controlled
-prediction outputs; the separate batch job verifies actual model serving.
+These tests do not need AWS credentials. The prediction tests use fixed example outputs to check the code's behavior. We checked actual model predictions separately through the SageMaker batch job.
 
-The SageMaker pipeline performs data verification, training, evaluation,
-and a validation quality gate. Registration requires macro F1 of at least
-0.40 and accuracy above the majority-class benchmark. Passing models are
-registered as `PendingManualApproval`. The threshold is a course
-demonstration criterion, not approval for operational use.
+The saved successful GitHub run is for commit `6bc0b0b`. It is not evidence that every later change or the combined master notebook was executed successfully.
 
-A successful execution registered model version 2. A separate selective
-execution used a temporary 0.95 threshold and verified that the failure
-branch stopped registration without creating new training or processing jobs.
+Our SageMaker pipeline runs these steps:
 
-GitHub CI does not automatically start the AWS pipeline. Pipeline execution,
-batch deployment, and monitoring submission are currently initiated manually.
-There is no automatic deployment after model registration.
+1. Check the training and validation data.
+2. Train the selected model.
+3. Read and check the validation results.
+4. Require macro F1 of at least **0.40** and accuracy above the benchmark.
+5. Register a passing model as `PendingManualApproval`, or stop if the scores are too low.
 
-## Deployment and monitoring
+The first successful run registered model version 2. We then tested the failure path with a temporary macro F1 requirement of **0.95**. That test reused earlier results and stopped registration without creating new training or processing jobs.
 
-The tested original model was served through SageMaker Batch Transform
-for all 17,712 simulated production tickets. No real-time endpoint is used.
+The score requirements are for our course demonstration. Passing them does not mean a model is ready to route real tickets without review.
 
-Custom monitoring runs in a SageMaker Processing job. It checks language
-and text-length distributions, missing or empty text, unfamiliar languages,
-model-quality changes, and training/batch job status and runtime.
+We start the AWS pipeline manually. Once started, its steps run automatically. GitHub tests do not launch the pipeline, and registration does not automatically deploy a model.
 
-CloudWatch receives 18 custom metrics. The dashboard is
-`AAI540-Group3-Ticket-Monitoring` in `us-east-1`.
-Monitoring currently runs on demand. Alarms are configured, but notification
-actions are disabled. A successful snapshot does not establish continuous
-monitoring or acceptable absolute model quality.
+## Batch predictions, monitoring, and registry
 
-Registry version 1 represents the original tested model used for batch
-predictions. Version 2 is the pipeline-trained candidate evaluated on
-validation data. The reported test and production scores belong to the
-original model, not to a separate test evaluation of version 2.
+We used SageMaker Batch Transform to predict queues for all **17,712 simulated production tickets**. The project uses batch predictions rather than a real-time endpoint.
 
-## Data storage and reproducibility
+Our custom monitoring code runs in a SageMaker Processing job. It checks:
 
-S3 bucket versioning is enabled. Exact object versions, dataset fingerprints,
-model references, and job identifiers are recorded in `project_config.json`
-and the saved reports.
+- Changes in language and ticket-length distributions.
+- Missing text, empty tickets, and unfamiliar languages.
+- Changes in accuracy, macro F1, and weighted F1.
+- Training and batch job status and duration.
 
-Five original CSV files are archived unchanged under `raw/kaggle/` in the project S3 bucket. Each uploaded version was downloaded and verified against its local SHA-256 fingerprint.
+We publish **18 custom metrics** to CloudWatch. The dashboard is `AAI540-Group3-Ticket-Monitoring` in `us-east-1`.
 
-See `raw_data_setup.ipynb` for the archive workflow and [the raw-data manifest](reports/raw_data/raw_data_manifest.json) for file locations, S3 version IDs, row counts, columns, and fingerprints.
+We run monitoring manually. CloudWatch alarms are configured, but notification actions are disabled. Zero alerts means our configured checks passed for that run; it does not mean the model's overall accuracy is high enough for real use. We have not added CPU, memory, or live-service monitoring.
 
-Beakal's cleaning notes identify the three multilingual files as the master's inputs. The two German-only files are archived for reference. All 44,278 master tickets matched raw subject/body text after comparison normalization of whitespace, case, and literal line breaks, with no queue-label disagreements. This verifies normalized text coverage; it does not reproduce every cleaning step or validate all metadata. The original Kaggle release number remains unverified.
+Registry **version 1** is the original tested model used for batch predictions. **Version 2** was trained by the pipeline and evaluated on validation data. The test and production scores in this README belong to version 1. Both versions were left pending manual approval.
 
-The following locations document the cleaned master data and derived datasets.
+## Original data and S3 storage
+
+We saved five original CSV files unchanged under `raw/kaggle/` in the project bucket. We downloaded each uploaded version and checked its SHA-256 hash against the local file.
+
+The [raw-data manifest](reports/raw_data/raw_data_manifest.json) lists the files, row counts, columns, S3 locations, version IDs, and hashes. The archive code is in `raw_data_setup.ipynb`.
+
+Beakal's notes identify three multilingual files as the sources for the cleaned master. We kept the two German-only files for reference. After making capitalization, spaces, and literal line breaks consistent for comparison, we matched the text of all **44,278 master tickets** to the raw data with matching queue labels. We did not repeat the full cleaning process or check every metadata field. The original Kaggle release number is still unverified.
+
+S3 versioning is enabled. `project_config.json` and the saved reports record file versions, hashes, model files, and job names.
 
 | Dataset | S3 location |
 |---|---|
@@ -190,19 +177,23 @@ The following locations document the cleaned master data and derived datasets.
 | production_labels | `s3://aai540-group3-tickets-390568313988-us-east-1/datasets/c142eef90e9f/split-v1-seed42/ground_truth/production_labels.csv` |
 | master_parquet | `s3://aai540-group3-tickets-390568313988-us-east-1/catalog/c142eef90e9f/master/master.parquet` |
 
-Feature Store exports are listed under `feature_store.datasets` in
-`project_config.json`. Generated local datasets and model files under
-`data/` are excluded from Git; their AWS references are retained.
+Feature Store exports are listed under `feature_store.datasets` in `project_config.json`. Generated datasets and model files in the local `data/` folder are excluded from Git.
 
-## Evidence and source code
+We also checked that the project bucket has default AES-256 encryption and all four bucket-level public-access block settings enabled. The saved check is in `reports/security/s3_security_checks.json`. These checks are not a full review of privacy or access permissions.
 
-- `src/ticket_training/`: managed training script and configuration.
-- `src/ticket_inference/`: serving code and dependencies.
-- `src/ticket_monitoring/`: reusable checks and managed monitoring script.
-- `src/ticket_pipeline/`: pipeline scripts, configuration, and definition.
-- `tests/`: monitoring and inference unit tests.
-- `reports/monitoring/` and `reports/managed_monitoring/`: monitoring evidence.
-- `reports/model_registry/`: original model registration evidence.
-- `reports/pipeline/first_execution/`: verified successful pipeline reports.
-- `reports/pipeline/gate_failure_test_verification.json`: intentional failure evidence.
-- `reports/ci/github_actions_success.json`: successful GitHub CI run reference.
+## Code and saved reports
+
+- `src/ticket_training/`: training script and settings.
+- `src/ticket_inference/`: prediction code and dependencies.
+- `src/ticket_monitoring/`: reusable checks and monitoring script.
+- `src/ticket_pipeline/`: pipeline scripts, settings, and definition.
+- `tests/`: monitoring and prediction tests.
+- `reports/monitoring/` and `reports/managed_monitoring/`: monitoring reports.
+- `reports/model_registry/`: original model registration details.
+- `reports/pipeline/first_execution/`: reports from the successful pipeline run.
+- `reports/pipeline/gate_failure_test_verification.json`: results of the failed-score test.
+- `reports/ci/github_actions_success.json`: recorded GitHub test result.
+- `reports/raw_data/raw_data_manifest.json`: original dataset archive details.
+- `reports/security/s3_security_checks.json`: S3 security settings checked during the project.
+
+Edit this README directly in Markdown when the project changes. The master notebook does not create or update it.
