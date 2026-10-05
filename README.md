@@ -196,4 +196,3 @@ We also checked that the project bucket has default AES-256 encryption and all f
 - `reports/raw_data/raw_data_manifest.json`: original dataset archive details.
 - `reports/security/s3_security_checks.json`: S3 security settings checked during the project.
 
-Edit this README directly in Markdown when the project changes. The master notebook does not create or update it.
