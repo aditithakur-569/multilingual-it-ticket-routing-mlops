@@ -1,0 +1,26 @@
+{
+  "training_job_name": "pipelines-un5qr81r60u7-TrainModel-OoBqclskQ3",
+  "model_artifact": {
+    "uri": "s3://aai540-group3-tickets-390568313988-us-east-1/pipelines/aai540-group3-ticket-routing-pipeline/un5qr81r60u7/training/pipelines-un5qr81r60u7-TrainModel-OoBqclskQ3/output/model.tar.gz",
+    "version_id": "sS1bjCI_H5L5nSnVWrIpOwgn7hn3fLUy",
+    "sha256": "5b06d71bca1ac43cdf26d5dc473c1bbf0a32dc784b22a3ad42f2033e1392964c"
+  },
+  "training_output_artifact": {
+    "uri": "s3://aai540-group3-tickets-390568313988-us-east-1/pipelines/aai540-group3-ticket-routing-pipeline/un5qr81r60u7/training/pipelines-un5qr81r60u7-TrainModel-OoBqclskQ3/output/output.tar.gz",
+    "version_id": "P0GqsInDkkRVHCULjELNrDDLiG2hKGUa",
+    "sha256": "73d55d3a8bbdee1cd52976446df45fe4de3448bf92e44c256115dd06b4daf205"
+  },
+  "training_configuration_verified": true,
+  "queue_labels": [
+    "Billing and Payments",
+    "Customer Service",
+    "General Inquiry",
+    "Human Resources",
+    "IT Support",
+    "Product Support",
+    "Returns and Exchanges",
+    "Sales and Pre-Sales",
+    "Service Outages and Maintenance",
+    "Technical Support"
+  ]
+}

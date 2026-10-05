@@ -471,6 +471,44 @@
     },
     "pipeline_arn": "arn:aws:sagemaker:us-east-1:390568313988:pipeline/aai540-group3-ticket-routing-pipeline",
     "status": "Active",
-    "definition_registered": true
+    "definition_registered": true,
+    "first_execution": {
+      "execution_arn": "arn:aws:sagemaker:us-east-1:390568313988:pipeline/aai540-group3-ticket-routing-pipeline/execution/un5qr81r60u7",
+      "definition_sha256": "3668b5264c4f3a0256211eb1298980dbbbb0f6de974539bcf61229989289f6f4",
+      "request_file": "reports/pipeline/first_execution_request.json",
+      "status": "Succeeded",
+      "training_job_name": "pipelines-un5qr81r60u7-TrainModel-OoBqclskQ3",
+      "model_package_arn": "arn:aws:sagemaker:us-east-1:390568313988:model-package/aai540-group3-ticket-routing/2",
+      "model_package_version": 2,
+      "approval_status": "PendingManualApproval",
+      "validation_metrics": {
+        "accuracy": 0.45573622402890696,
+        "macro_f1": 0.43616079833313764,
+        "weighted_f1": 0.4569255989374723
+      },
+      "model_artifact": {
+        "uri": "s3://aai540-group3-tickets-390568313988-us-east-1/pipelines/aai540-group3-ticket-routing-pipeline/un5qr81r60u7/training/pipelines-un5qr81r60u7-TrainModel-OoBqclskQ3/output/model.tar.gz",
+        "version_id": "sS1bjCI_H5L5nSnVWrIpOwgn7hn3fLUy",
+        "sha256": "5b06d71bca1ac43cdf26d5dc473c1bbf0a32dc784b22a3ad42f2033e1392964c"
+      },
+      "report_artifacts": {
+        "data_verification.json": {
+          "uri": "s3://aai540-group3-tickets-390568313988-us-east-1/pipelines/aai540-group3-ticket-routing-pipeline/un5qr81r60u7/verified-data/verification/data_verification.json",
+          "version_id": "4tPOoNg2ho2S8.3xrNQHG9FsaROe6s8D",
+          "sha256": "5d6efc3aef848257bf572f3995841cafe7c6ba473eeced21b1b321f7221b2153"
+        },
+        "evaluation.json": {
+          "uri": "s3://aai540-group3-tickets-390568313988-us-east-1/pipelines/aai540-group3-ticket-routing-pipeline/un5qr81r60u7/evaluation/evaluation.json",
+          "version_id": "URLgTjd2T9MkkY0Rj27wvSlMhcsIZUiJ",
+          "sha256": "272a63a6212dace8754e022bb4cc44d866ef4a4c1f4f14dd61b644bfc92a3613"
+        },
+        "model_assets.json": {
+          "uri": "s3://aai540-group3-tickets-390568313988-us-east-1/pipelines/aai540-group3-ticket-routing-pipeline/un5qr81r60u7/evaluation/model_assets.json",
+          "version_id": "4d6XNVapgqMEWYv0.BShGGP0lOZ.TKDJ",
+          "sha256": "b4c8b6fec0b890065c822db35ec5c9d41bac735a5aa762c407afd2daa81a6a16"
+        }
+      },
+      "verification_passed": true
+    }
   }
 }

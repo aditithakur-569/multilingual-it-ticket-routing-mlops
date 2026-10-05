@@ -1,0 +1,68 @@
+{
+  "checked_at": "2026-10-05T02:30:46.582339+00:00",
+  "execution_arn": "arn:aws:sagemaker:us-east-1:390568313988:pipeline/aai540-group3-ticket-routing-pipeline/execution/un5qr81r60u7",
+  "status": "Succeeded",
+  "failure_reason": null,
+  "steps": [
+    {
+      "StepName": "VerifyData",
+      "StartTime": "2026-10-05 02:22:44.516000+00:00",
+      "EndTime": "2026-10-05 02:25:17.428000+00:00",
+      "StepStatus": "Succeeded",
+      "Metadata": {
+        "ProcessingJob": {
+          "Arn": "arn:aws:sagemaker:us-east-1:390568313988:processing-job/pipelines-un5qr81r60u7-VerifyData-EOcX643M8M"
+        }
+      },
+      "AttemptCount": 1
+    },
+    {
+      "StepName": "TrainModel",
+      "StartTime": "2026-10-05 02:25:17.953000+00:00",
+      "EndTime": "2026-10-05 02:28:02.033000+00:00",
+      "StepStatus": "Succeeded",
+      "Metadata": {
+        "TrainingJob": {
+          "Arn": "arn:aws:sagemaker:us-east-1:390568313988:training-job/pipelines-un5qr81r60u7-TrainModel-OoBqclskQ3"
+        }
+      },
+      "AttemptCount": 1
+    },
+    {
+      "StepName": "PrepareEvaluation",
+      "StartTime": "2026-10-05 02:28:02.405000+00:00",
+      "EndTime": "2026-10-05 02:30:36.256000+00:00",
+      "StepStatus": "Succeeded",
+      "Metadata": {
+        "ProcessingJob": {
+          "Arn": "arn:aws:sagemaker:us-east-1:390568313988:processing-job/pipelines-un5qr81r60u7-PrepareEvaluation-UJfjDhKFDG"
+        }
+      },
+      "AttemptCount": 1
+    },
+    {
+      "StepName": "CheckValidationQuality",
+      "StartTime": "2026-10-05 02:30:36.885000+00:00",
+      "EndTime": "2026-10-05 02:30:37.472000+00:00",
+      "StepStatus": "Succeeded",
+      "Metadata": {
+        "Condition": {
+          "Outcome": "True"
+        }
+      },
+      "AttemptCount": 1
+    },
+    {
+      "StepName": "RegisterModelForReview",
+      "StartTime": "2026-10-05 02:30:38.101000+00:00",
+      "EndTime": "2026-10-05 02:30:40.199000+00:00",
+      "StepStatus": "Succeeded",
+      "Metadata": {
+        "RegisterModel": {
+          "Arn": "arn:aws:sagemaker:us-east-1:390568313988:model-package/aai540-group3-ticket-routing/2"
+        }
+      },
+      "AttemptCount": 1
+    }
+  ]
+}
