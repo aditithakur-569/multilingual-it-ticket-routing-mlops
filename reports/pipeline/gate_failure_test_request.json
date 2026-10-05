@@ -1,0 +1,29 @@
+{
+  "PipelineName": "aai540-group3-ticket-routing-pipeline",
+  "PipelineExecutionDisplayName": "quality-gate-failure-demo",
+  "PipelineExecutionDescription": "Intentional failure-branch test using existing validation results. A temporary macro F1 threshold of 0.95 should block registration.",
+  "PipelineParameters": [
+    {
+      "Name": "MinimumValidationMacroF1",
+      "Value": "0.95"
+    }
+  ],
+  "SelectiveExecutionConfig": {
+    "SourcePipelineExecutionArn": "arn:aws:sagemaker:us-east-1:390568313988:pipeline/aai540-group3-ticket-routing-pipeline/execution/un5qr81r60u7",
+    "SelectedSteps": [
+      {
+        "StepName": "CheckValidationQuality"
+      },
+      {
+        "StepName": "RegisterModelForReview"
+      },
+      {
+        "StepName": "StopForQualityReview"
+      }
+    ]
+  },
+  "ParallelismConfiguration": {
+    "MaxParallelExecutionSteps": 1
+  },
+  "ClientRequestToken": "a1d6da7f-8e54-5400-bd6c-7706e58f0459"
+}

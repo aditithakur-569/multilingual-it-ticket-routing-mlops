@@ -1,0 +1,63 @@
+{
+  "checked_at": "2026-10-05T02:44:46.958307+00:00",
+  "execution_arn": "arn:aws:sagemaker:us-east-1:390568313988:pipeline/aai540-group3-ticket-routing-pipeline/execution/0kq2ysiifcsh",
+  "status": "Failed",
+  "failure_reason": "Step failure: One or multiple steps failed.",
+  "steps": [
+    {
+      "StepName": "TrainModel",
+      "StartTime": "2026-10-05 02:43:03.963000+00:00",
+      "EndTime": "2026-10-05 02:43:05.450000+00:00",
+      "StepStatus": "Succeeded",
+      "Metadata": {
+        "TrainingJob": {
+          "Arn": "arn:aws:sagemaker:us-east-1:390568313988:training-job/pipelines-un5qr81r60u7-TrainModel-OoBqclskQ3"
+        }
+      },
+      "AttemptCount": 1,
+      "SelectiveExecutionResult": {
+        "SourcePipelineExecutionArn": "arn:aws:sagemaker:us-east-1:390568313988:pipeline/aai540-group3-ticket-routing-pipeline/execution/un5qr81r60u7"
+      }
+    },
+    {
+      "StepName": "PrepareEvaluation",
+      "StartTime": "2026-10-05 02:43:06.155000+00:00",
+      "EndTime": "2026-10-05 02:43:06.605000+00:00",
+      "StepStatus": "Succeeded",
+      "Metadata": {
+        "ProcessingJob": {
+          "Arn": "arn:aws:sagemaker:us-east-1:390568313988:processing-job/pipelines-un5qr81r60u7-PrepareEvaluation-UJfjDhKFDG"
+        }
+      },
+      "AttemptCount": 1,
+      "SelectiveExecutionResult": {
+        "SourcePipelineExecutionArn": "arn:aws:sagemaker:us-east-1:390568313988:pipeline/aai540-group3-ticket-routing-pipeline/execution/un5qr81r60u7"
+      }
+    },
+    {
+      "StepName": "CheckValidationQuality",
+      "StartTime": "2026-10-05 02:43:07.124000+00:00",
+      "EndTime": "2026-10-05 02:43:07.271000+00:00",
+      "StepStatus": "Succeeded",
+      "Metadata": {
+        "Condition": {
+          "Outcome": "False"
+        }
+      },
+      "AttemptCount": 1
+    },
+    {
+      "StepName": "StopForQualityReview",
+      "StartTime": "2026-10-05 02:43:07.623000+00:00",
+      "EndTime": "2026-10-05 02:43:07.865000+00:00",
+      "StepStatus": "Failed",
+      "FailureReason": "Validation quality gate failed. Macro F1 must meet the configured minimum, and accuracy must exceed the majority-class benchmark. No model was registered.",
+      "Metadata": {
+        "Fail": {
+          "ErrorMessage": "Validation quality gate failed. Macro F1 must meet the configured minimum, and accuracy must exceed the majority-class benchmark. No model was registered."
+        }
+      },
+      "AttemptCount": 1
+    }
+  ]
+}

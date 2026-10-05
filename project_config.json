@@ -509,6 +509,20 @@
         }
       },
       "verification_passed": true
+    },
+    "gate_failure_test": {
+      "execution_arn": "arn:aws:sagemaker:us-east-1:390568313988:pipeline/aai540-group3-ticket-routing-pipeline/execution/0kq2ysiifcsh",
+      "source_execution_arn": "arn:aws:sagemaker:us-east-1:390568313988:pipeline/aai540-group3-ticket-routing-pipeline/execution/un5qr81r60u7",
+      "test_threshold": 0.95,
+      "observed_validation_macro_f1": 0.43616079833313764,
+      "expected_status": "Failed",
+      "request_file": "reports/pipeline/gate_failure_test_request.json",
+      "status": "Failed",
+      "expected_failure_verified": true,
+      "quality_gate_outcome": false,
+      "registration_blocked": true,
+      "no_new_training_or_processing_jobs": true,
+      "failure_reason": "Step failure: One or multiple steps failed."
     }
   }
 }
