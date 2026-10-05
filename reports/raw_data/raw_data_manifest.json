@@ -1,0 +1,184 @@
+{
+  "archived_at": "2026-10-05T05:07:33.351675+00:00",
+  "source_url": "https://www.kaggle.com/datasets/tobiasbueck/multilingual-customer-support-tickets/data",
+  "kaggle_version": null,
+  "source_note": "Original files supplied by the team. The Kaggle release/version number has not been verified.",
+  "master_dataset_sha256": "c142eef90e9f58329ed6ac38f7a733350f3ca51bdb4aed4345a4baa8ea1a19aa",
+  "master_rows": 44278,
+  "comparison_results": [
+    {
+      "comparison": "Whitespace and case",
+      "matched_master_tickets": 42629,
+      "unmatched_master_tickets": 1649,
+      "queue_mismatches_among_matches": 0,
+      "duplicate_master_keys_after_normalization": 0
+    },
+    {
+      "comparison": "Also normalize literal line breaks",
+      "matched_master_tickets": 44278,
+      "unmatched_master_tickets": 0,
+      "queue_mismatches_among_matches": 0,
+      "duplicate_master_keys_after_normalization": 0
+    },
+    {
+      "comparison": "Also remove trailing backslashes",
+      "matched_master_tickets": 44278,
+      "unmatched_master_tickets": 0,
+      "queue_mismatches_among_matches": 0,
+      "duplicate_master_keys_after_normalization": 0
+    }
+  ],
+  "comparison_limit": "Normalized subject/body matches and queue-label agreement were checked. This does not reproduce the complete cleaning process or verify every metadata field.",
+  "archive_complete": true,
+  "files": [
+    {
+      "filename": "aa_dataset-tickets-multi-lang-5-2-50-version.csv",
+      "bytes": 25996354,
+      "sha256": "f187c090e59581c2bbf3aa1377c8db4dd647464ecf2ae51bf8966e42e0ed6bc0",
+      "separator": ",",
+      "rows": 28587,
+      "columns": [
+        "subject",
+        "body",
+        "answer",
+        "type",
+        "queue",
+        "priority",
+        "language",
+        "version",
+        "tag_1",
+        "tag_2",
+        "tag_3",
+        "tag_4",
+        "tag_5",
+        "tag_6",
+        "tag_7",
+        "tag_8"
+      ],
+      "language_counts": {
+        "en": 16338,
+        "de": 12249
+      },
+      "queue_count": 10,
+      "uri": "s3://aai540-group3-tickets-390568313988-us-east-1/raw/kaggle/f187c090e59581c2bbf3aa1377c8db4dd647464ecf2ae51bf8966e42e0ed6bc0/aa_dataset-tickets-multi-lang-5-2-50-version.csv",
+      "version_id": "UF7d4Frc6C39Z0LesElLMM7_qf2eeBO.",
+      "download_verified": true,
+      "included_in_master_per_cleaning_notes": true
+    },
+    {
+      "filename": "dataset-tickets-german_normalized.csv",
+      "bytes": 1251346,
+      "sha256": "80b63df950c0b831971381b9c6ee064633f49095654c0fd8cb8818390cbc2ee8",
+      "separator": ",",
+      "rows": 2125,
+      "columns": [
+        "subject",
+        "body",
+        "queue",
+        "priority",
+        "language"
+      ],
+      "language_counts": {
+        "de": 2125
+      },
+      "queue_count": 10,
+      "uri": "s3://aai540-group3-tickets-390568313988-us-east-1/raw/kaggle/80b63df950c0b831971381b9c6ee064633f49095654c0fd8cb8818390cbc2ee8/dataset-tickets-german_normalized.csv",
+      "version_id": "OStWMOqLkYpmUqgBUjCogFSjVYJgh48r",
+      "download_verified": true,
+      "included_in_master_per_cleaning_notes": false
+    },
+    {
+      "filename": "dataset-tickets-german_normalized_50_5_2.csv",
+      "bytes": 8327422,
+      "sha256": "22580337aed864d8c0485f16a7fe683d48d8adfc3af0cd1a6fe1e240f728735f",
+      "separator": ",",
+      "rows": 13178,
+      "columns": [
+        "subject",
+        "body",
+        "queue",
+        "priority",
+        "language"
+      ],
+      "language_counts": {
+        "de": 13178
+      },
+      "queue_count": 42,
+      "uri": "s3://aai540-group3-tickets-390568313988-us-east-1/raw/kaggle/22580337aed864d8c0485f16a7fe683d48d8adfc3af0cd1a6fe1e240f728735f/dataset-tickets-german_normalized_50_5_2.csv",
+      "version_id": "BKuk7Rb0c9K4pq.VarwoJvq7HbCnR6_w",
+      "download_verified": true,
+      "included_in_master_per_cleaning_notes": false
+    },
+    {
+      "filename": "dataset-tickets-multi-lang-4-20k.csv",
+      "bytes": 18799808,
+      "sha256": "9be3bf810584fe01e8e83383e83dfd33f4c3910938ecad03ef151da79d8f0635",
+      "separator": ",",
+      "rows": 20000,
+      "columns": [
+        "subject",
+        "body",
+        "answer",
+        "type",
+        "queue",
+        "priority",
+        "language",
+        "tag_1",
+        "tag_2",
+        "tag_3",
+        "tag_4",
+        "tag_5",
+        "tag_6",
+        "tag_7",
+        "tag_8"
+      ],
+      "language_counts": {
+        "en": 11923,
+        "de": 8077
+      },
+      "queue_count": 10,
+      "uri": "s3://aai540-group3-tickets-390568313988-us-east-1/raw/kaggle/9be3bf810584fe01e8e83383e83dfd33f4c3910938ecad03ef151da79d8f0635/dataset-tickets-multi-lang-4-20k.csv",
+      "version_id": "4sTXE9l3GCrEE2iAyQ3GuyGShy2390mG",
+      "download_verified": true,
+      "included_in_master_per_cleaning_notes": true
+    },
+    {
+      "filename": "dataset-tickets-multi-lang3-4k.csv",
+      "bytes": 6873542,
+      "sha256": "9aae7120cf459fc27561febe29c7757c6d222bfebff50e8baa868991e57b87d1",
+      "separator": ",",
+      "rows": 4000,
+      "columns": [
+        "subject",
+        "body",
+        "answer",
+        "type",
+        "queue",
+        "priority",
+        "language",
+        "business_type",
+        "tag_1",
+        "tag_2",
+        "tag_3",
+        "tag_4",
+        "tag_5",
+        "tag_6",
+        "tag_7",
+        "tag_8",
+        "tag_9"
+      ],
+      "language_counts": {
+        "en": 1391,
+        "de": 848,
+        "es": 812,
+        "fr": 476,
+        "pt": 473
+      },
+      "queue_count": 10,
+      "uri": "s3://aai540-group3-tickets-390568313988-us-east-1/raw/kaggle/9aae7120cf459fc27561febe29c7757c6d222bfebff50e8baa868991e57b87d1/dataset-tickets-multi-lang3-4k.csv",
+      "version_id": "vI0y5Bv3ZhtmNSJe0Nwxt.kjqMj0U9_v",
+      "download_verified": true,
+      "included_in_master_per_cleaning_notes": true
+    }
+  ]
+}

@@ -172,9 +172,13 @@ S3 bucket versioning is enabled. Exact object versions, dataset fingerprints,
 model references, and job identifiers are recorded in `project_config.json`
 and the saved reports.
 
-The following locations document the cleaned master data and derived
-datasets. They do not establish that original raw source files have been
-archived in S3.
+Five original CSV files are archived unchanged under `raw/kaggle/` in the project S3 bucket. Each uploaded version was downloaded and verified against its local SHA-256 fingerprint.
+
+See `raw_data_setup.ipynb` for the archive workflow and [the raw-data manifest](reports/raw_data/raw_data_manifest.json) for file locations, S3 version IDs, row counts, columns, and fingerprints.
+
+Beakal's cleaning notes identify the three multilingual files as the master's inputs. The two German-only files are archived for reference. All 44,278 master tickets matched raw subject/body text after comparison normalization of whitespace, case, and literal line breaks, with no queue-label disagreements. This verifies normalized text coverage; it does not reproduce every cleaning step or validate all metadata. The original Kaggle release number remains unverified.
+
+The following locations document the cleaned master data and derived datasets.
 
 | Dataset | S3 location |
 |---|---|

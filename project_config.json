@@ -524,5 +524,16 @@
       "no_new_training_or_processing_jobs": true,
       "failure_reason": "Step failure: One or multiple steps failed."
     }
+  },
+  "raw_data_archive": {
+    "file_count": 5,
+    "raw_prefix_uri": "s3://aai540-group3-tickets-390568313988-us-east-1/raw/kaggle/",
+    "local_manifest": "reports/raw_data/raw_data_manifest.json",
+    "manifest": {
+      "uri": "s3://aai540-group3-tickets-390568313988-us-east-1/raw/manifests/dd363db4ef8733f8e416f5ec45228398c0b54fde53d81836b4d677794a8832ac.json",
+      "version_id": "r_4wp6uCvIAExd47rraXN_P.DQujsAsm",
+      "sha256": "dd363db4ef8733f8e416f5ec45228398c0b54fde53d81836b4d677794a8832ac"
+    },
+    "notebook": "raw_data_setup.ipynb"
   }
 }
