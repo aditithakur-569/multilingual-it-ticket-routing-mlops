@@ -9,13 +9,10 @@ from datetime import datetime, timezone
 from pathlib import Path
 from urllib.parse import urlparse
 
-import boto3
-
-from checks import (
-    classification_metrics,
-    data_quality_checks,
-    model_quality_checks,
-)
+if __package__:
+    from .checks import classification_metrics, data_quality_checks, model_quality_checks
+else:
+    from checks import classification_metrics, data_quality_checks, model_quality_checks
 
 
 def require(condition, message):
@@ -98,108 +95,30 @@ def save_json(folder, filename, value):
     )
 
 
-def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument(
-        "--config",
-        default=str(Path(__file__).with_name("monitoring_config.json")),
-    )
-    parser.add_argument("--output-dir", default="/opt/ml/processing/output")
-    parser.add_argument("--publish-metrics", action="store_true")
-    args = parser.parse_args()
-
-    config = json.loads(Path(args.config).read_text(encoding="utf-8"))
-    output = Path(args.output_dir)
+def run_monitoring(config, output, session, publish_metrics=False):
+    output = Path(output)
     output.mkdir(parents=True, exist_ok=True)
-
-    session = boto3.Session(region_name=config["aws_region"])
-    s3 = session.client("s3")
+    now = datetime.now(timezone.utc)
     sagemaker = session.client("sagemaker")
 
-    baseline = json.loads(read_saved_bytes(s3, config["training_baseline"]))
-    records = read_csv_records(read_saved_bytes(s3, config["production_data"]))
-
-    require(len(records) == config["expected_production_rows"],
-            "Unexpected production row count.")
-    require(all("queue" not in row for row in records),
-            "Production inputs contain queue labels.")
-    production = index_records(records)
-
-    predictions = []
-    for source in config["prediction_artifacts"]:
-        content = read_saved_bytes(s3, source).decode("utf-8")
-        predictions.extend(
-            json.loads(line) for line in content.splitlines() if line.strip()
-        )
-    predictions = index_records(predictions)
-
-    labels = index_records(
-        read_csv_records(read_saved_bytes(s3, config["production_labels"]))
-    )
-
-    require(set(production) == set(predictions) == set(labels),
-            "Input, prediction, and label ticket IDs do not match.")
-
-    ticket_ids = list(production)
-    actual = [labels[ticket_id]["queue"] for ticket_id in ticket_ids]
-    predicted = [
-        predictions[ticket_id]["predicted_queue"] for ticket_id in ticket_ids
-    ]
-
-    data_checks = data_quality_checks(
-        records, baseline, config["data_thresholds"]
-    )
-    metrics = classification_metrics(actual, predicted, config["queue_labels"])
-    model_checks = model_quality_checks(
-        metrics,
-        config["reference_metrics"],
-        config["model_allowed_absolute_drop"],
-    )
-
+    # Check the jobs before reading their output files.
     jobs = [
         summarize_job(
             sagemaker.describe_training_job(
-                TrainingJobName=config["training_job_name"]
+                TrainingJobName=config["training_job_name"],
             ),
             "training",
         ),
         summarize_job(
             sagemaker.describe_transform_job(
-                TransformJobName=config["batch_job_name"]
+                TransformJobName=config["batch_job_name"],
             ),
             "batch_prediction",
         ),
     ]
-
-    now = datetime.now(timezone.utc)
     infrastructure_alerts = sum(
         job["check_status"] == "ALERT" for job in jobs
     )
-
-    save_json(output, "production_data_quality.json", {
-        "reference_source": baseline["source"],
-        "production_source": config["production_data"],
-        "production_rows": len(records),
-        "thresholds": config["data_thresholds"],
-        "checks": data_checks,
-        "alert_count": alert_count(data_checks),
-    })
-    save_json(output, "production_quality.json", {
-        "batch_job_name": config["batch_job_name"],
-        "ground_truth_source": config["production_labels"],
-        "metrics": {
-            "evaluation_split": "simulated_production",
-            "tickets": len(records),
-            **metrics,
-        },
-    })
-    save_json(output, "model_quality_checks.json", {
-        "batch_job_name": config["batch_job_name"],
-        "reference_metrics": config["reference_metrics"],
-        "allowed_absolute_drop": config["model_allowed_absolute_drop"],
-        "checks": model_checks,
-        "alert_count": alert_count(model_checks),
-    })
     save_json(output, "infrastructure_status.json", {
         "checked_at": now.isoformat(),
         "jobs": jobs,
@@ -218,30 +137,18 @@ def main():
             "Unit": unit,
         })
 
-    for metric, name in [
-        ("accuracy", "ProductionAccuracy"),
-        ("macro_f1", "ProductionMacroF1"),
-        ("weighted_f1", "ProductionWeightedF1"),
-    ]:
-        add_metric(name, metrics[metric])
+    def publish(items):
+        if not publish_metrics or not items:
+            return 0
+        response = session.client("cloudwatch").put_metric_data(
+            Namespace=config["cloudwatch"]["namespace"],
+            MetricData=items,
+        )
+        require(response["ResponseMetadata"]["HTTPStatusCode"] == 200,
+                "CloudWatch metric publication failed.")
+        return len(items)
 
-    add_metric("DataAlertCount", alert_count(data_checks), "Count")
-    add_metric("ModelQualityAlertCount", alert_count(model_checks), "Count")
     add_metric("InfrastructureAlertCount", infrastructure_alerts, "Count")
-
-    metric_names = {
-        "language_distribution": "LanguageDistributionDistance",
-        "text_char_count_distribution": "TextCharDistributionDistance",
-        "text_word_count_distribution": "TextWordDistributionDistance",
-        "missing_subject_rate_increase": "MissingSubjectRateIncrease",
-        "missing_body_rate_increase": "MissingBodyRateIncrease",
-        "empty_text_rate": "EmptyTextRate",
-        "unknown_language_rate": "UnknownLanguageRate",
-        "unseen_language_rate": "UnseenLanguageRate",
-    }
-    for check in data_checks:
-        add_metric(metric_names[check["check"]], check["value"])
-
     for job in jobs:
         prefix = "Training" if job["job_type"] == "training" else "Batch"
         if job["duration_seconds"] is not None:
@@ -250,28 +157,178 @@ def main():
         add_metric(f"{prefix}JobAlert",
                    int(job["check_status"] == "ALERT"), "Count")
 
-    if args.publish_metrics:
-        response = session.client("cloudwatch").put_metric_data(
-            Namespace=config["cloudwatch"]["namespace"],
-            MetricData=metric_data,
+    # Send job alerts first so missing data cannot hide them.
+    infrastructure_metric_count = len(metric_data)
+    published_count = publish(metric_data[:])
+    s3 = session.client("s3")
+
+    data_checks = None
+    production = None
+    production_rows = None
+    data_reason = None
+    reference_source = None
+
+    try:
+        baseline = json.loads(read_saved_bytes(s3, config["training_baseline"]))
+        reference_source = baseline["source"]
+        records = read_csv_records(read_saved_bytes(s3, config["production_data"]))
+        production_rows = len(records)
+        require(production_rows == config["expected_production_rows"],
+                "Unexpected production row count.")
+        require(all("queue" not in row for row in records),
+                "Production inputs contain queue labels.")
+        production = index_records(records)
+        data_checks = data_quality_checks(
+            records, baseline, config["data_thresholds"],
         )
-        require(response["ResponseMetadata"]["HTTPStatusCode"] == 200,
-                "CloudWatch metric publication failed.")
+    except Exception as error:
+        # Record why the checks could not run; do not report zero alerts.
+        data_reason = f"{type(error).__name__}: {error}"
+
+    data_status = "AVAILABLE" if data_checks is not None else "UNAVAILABLE"
+    data_alerts = alert_count(data_checks) if data_checks is not None else None
+    save_json(output, "production_data_quality.json", {
+        "status": data_status,
+        "reason": data_reason,
+        "reference_source": reference_source,
+        "production_source": config["production_data"],
+        "production_rows": production_rows,
+        "thresholds": config["data_thresholds"],
+        "checks": data_checks,
+        "alert_count": data_alerts,
+    })
+
+    metrics = None
+    model_checks = None
+    model_reason = None
+    batch_status = jobs[1]["aws_status"]
+
+    if batch_status != "Completed":
+        model_reason = f"Batch job status is {batch_status}; predictions were not evaluated."
+    elif data_checks is None:
+        model_reason = "Production data could not be verified. See the data quality report."
+    else:
+        try:
+            require(config["prediction_artifacts"], "No prediction files are configured.")
+            prediction_rows = []
+            for source in config["prediction_artifacts"]:
+                content = read_saved_bytes(s3, source).decode("utf-8")
+                prediction_rows.extend(
+                    json.loads(line) for line in content.splitlines() if line.strip()
+                )
+            predictions = index_records(prediction_rows)
+            labels = index_records(
+                read_csv_records(read_saved_bytes(s3, config["production_labels"]))
+            )
+            require(set(production) == set(predictions) == set(labels),
+                    "Input, prediction, and label ticket IDs do not match.")
+
+            ticket_ids = list(production)
+            actual = [labels[ticket_id]["queue"] for ticket_id in ticket_ids]
+            predicted = [
+                predictions[ticket_id]["predicted_queue"] for ticket_id in ticket_ids
+            ]
+            candidate_metrics = classification_metrics(
+                actual, predicted, config["queue_labels"],
+            )
+            candidate_checks = model_quality_checks(
+                candidate_metrics,
+                config["reference_metrics"],
+                config["model_allowed_absolute_drop"],
+            )
+            metrics, model_checks = candidate_metrics, candidate_checks
+        except Exception as error:
+            model_reason = f"{type(error).__name__}: {error}"
+
+    model_status = "AVAILABLE" if metrics is not None else "UNAVAILABLE"
+    model_alerts = alert_count(model_checks) if model_checks is not None else None
+    save_json(output, "production_quality.json", {
+        "status": model_status,
+        "reason": model_reason,
+        "batch_job_name": config["batch_job_name"],
+        "ground_truth_source": config.get("production_labels"),
+        "metrics": {
+            "evaluation_split": "simulated_production",
+            "tickets": production_rows,
+            **metrics,
+        } if metrics is not None else None,
+    })
+    save_json(output, "model_quality_checks.json", {
+        "status": model_status,
+        "reason": model_reason,
+        "batch_job_name": config["batch_job_name"],
+        "reference_metrics": config["reference_metrics"],
+        "allowed_absolute_drop": config["model_allowed_absolute_drop"],
+        "checks": model_checks,
+        "alert_count": model_alerts,
+    })
+
+    if data_checks is not None:
+        add_metric("DataAlertCount", data_alerts, "Count")
+        metric_names = {
+            "language_distribution": "LanguageDistributionDistance",
+            "text_char_count_distribution": "TextCharDistributionDistance",
+            "text_word_count_distribution": "TextWordDistributionDistance",
+            "missing_subject_rate_increase": "MissingSubjectRateIncrease",
+            "missing_body_rate_increase": "MissingBodyRateIncrease",
+            "empty_text_rate": "EmptyTextRate",
+            "unknown_language_rate": "UnknownLanguageRate",
+            "unseen_language_rate": "UnseenLanguageRate",
+        }
+        for check in data_checks:
+            add_metric(metric_names[check["check"]], check["value"])
+
+    if metrics is not None:
+        for metric, name in [
+            ("accuracy", "ProductionAccuracy"),
+            ("macro_f1", "ProductionMacroF1"),
+            ("weighted_f1", "ProductionWeightedF1"),
+        ]:
+            add_metric(name, metrics[metric])
+        add_metric("ModelQualityAlertCount", model_alerts, "Count")
 
     summary = {
         "checked_at": now.isoformat(),
         "batch_job_name": config["batch_job_name"],
-        "production_rows": len(records),
+        "production_rows": production_rows,
         "metrics": metrics,
-        "data_alert_count": alert_count(data_checks),
-        "model_alert_count": alert_count(model_checks),
+        "data_quality_status": data_status,
+        "model_quality_status": model_status,
+        "data_quality_reason": data_reason,
+        "model_quality_reason": model_reason,
+        "data_alert_count": data_alerts,
+        "model_alert_count": model_alerts,
         "infrastructure_alert_count": infrastructure_alerts,
-        "cloudwatch_metrics_published": args.publish_metrics,
-        "metric_count": len(metric_data) if args.publish_metrics else 0,
+        "cloudwatch_metrics_published": False,
+        "metric_count": published_count,
     }
     save_json(output, "monitoring_summary.json", summary)
+    published_count += publish(metric_data[infrastructure_metric_count:])
+    summary["cloudwatch_metrics_published"] = publish_metrics
+    summary["metric_count"] = published_count
+    save_json(output, "monitoring_summary.json", summary)
+    return summary
+
+
+def main():
+    import boto3
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--config",
+        default=str(Path(__file__).with_name("monitoring_config.json")),
+    )
+    parser.add_argument("--output-dir", default="/opt/ml/processing/output")
+    parser.add_argument("--publish-metrics", action="store_true")
+    args = parser.parse_args()
+
+    config = json.loads(Path(args.config).read_text(encoding="utf-8"))
+    session = boto3.Session(region_name=config["aws_region"])
+    summary = run_monitoring(config, args.output_dir, session, args.publish_metrics)
     print(json.dumps(summary, indent=2, allow_nan=False))
 
 
 if __name__ == "__main__":
     main()
+
+

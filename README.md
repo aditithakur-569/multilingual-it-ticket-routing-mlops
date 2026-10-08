@@ -118,7 +118,7 @@ The checks:
 
 - Look for Python syntax mistakes in our scripts.
 - Look for Python syntax mistakes in our notebook cells.
-- Run 17 tests for the monitoring and prediction code.
+- Run 22 tests for the monitoring and prediction code, including checks for failed jobs and missing files.
 
 The notebook check uses `scripts/check_notebooks.py`. It reads the code without running notebook cells or starting AWS jobs. Passing this check means the Python syntax is valid; it does not prove that every calculation or AWS operation will work.
 
@@ -133,7 +133,7 @@ python -m unittest discover -s tests -p "test_*.py" -v
 
 These checks do not need AWS credentials. The prediction tests use fixed example outputs. We checked predictions from the actual model separately through the SageMaker batch job.
 
-[The GitHub run for commit `d3dfe64`](https://github.com/aditithakur-569/multilingual-it-ticket-routing-mlops/actions/runs/37712169108) passed all these checks, including syntax checks for all 11 notebooks.
+[The GitHub run for commit `d3dfe64`](https://github.com/aditithakur-569/multilingual-it-ticket-routing-mlops/actions/runs/37712169108) passed syntax checks for all 11 notebooks and the 17 tests available at that time. We then added five monitoring tests and confirmed that all 22 tests passed locally.
 
 The earlier report in `reports/ci/github_actions_success.json` records the run for commit `6bc0b0b`.
 
