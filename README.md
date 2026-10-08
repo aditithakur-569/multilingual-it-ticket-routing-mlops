@@ -96,15 +96,42 @@ Beakal's earlier feature engineering and baseline experiments are in `Feature En
 
 We used Python 3.12 in SageMaker Studio with an active AWS Academy lab session and the lab execution role.
 
-Install the saved package versions in the notebook kernel:
+We use a separate Python environment for this project so its package versions stay separate from Studio's other tools. The environment is outside the Git repository.
 
-```python
-%pip install -r requirements-notebooks.txt
+If the project environment does not exist yet, open a Studio terminal and create it using Studio's Python 3.12:
+
+```bash
+cd ~/AAI-540-Project/multilingual-it-ticket-routing-mlops
+/opt/conda/bin/python -m venv "$HOME/AAI-540-Project/envs/ticket-routing"
 ```
 
-Restart the kernel after installation. The notebooks use SageMaker SDK **2.257.6** and its v2 imports.
+From the main project folder, install our saved packages into that environment and check their dependencies:
 
-SageMaker Studio also provided packages such as boto3, PyArrow, and plotting tools. `requirements-notebooks.txt` records the main ML and SageMaker packages; it does not include every dependency needed for a completely fresh environment.
+```bash
+"$HOME/AAI-540-Project/envs/ticket-routing/bin/python" -m pip install --no-user -r requirements-notebooks.txt
+"$HOME/AAI-540-Project/envs/ticket-routing/bin/python" -m pip check
+```
+
+The dependency check should say `No broken requirements found.` Then add this environment to the notebook kernel list:
+
+```bash
+"$HOME/AAI-540-Project/envs/ticket-routing/bin/python" -m ipykernel install --user --name aai540-ticket-routing --display-name "AAI-540 Ticket Routing"
+```
+
+Refresh JupyterLab if needed, open the original notebook for the stage you need, and select **AAI-540 Ticket Routing** as its kernel. Check the Python path in a temporary cell before running the project cells:
+
+```python
+import sys
+print(sys.executable)
+```
+
+The path should end with `AAI-540-Project/envs/ticket-routing/bin/python`. Selecting the notebook kernel and activating an environment in the terminal are separate steps. We keep package installation outside the training steps.
+
+`requirements-notebooks.txt` includes the project packages and `ipykernel`, which lets Jupyter use this environment. We kept SageMaker **2.257.6** and `sagemaker-core==1.0.78` because our working notebooks use SDK v2. The file records our chosen versions but does not lock every indirect dependency or recreate the full Studio environment.
+
+We checked this separate environment: the dependency check and SDK imports passed, all 11 notebooks passed the syntax check, and all 22 local tests passed. These checks did not rerun the AWS jobs; the saved AWS results are from earlier runs.
+
+Keep the environment outside Git. If a lab reset removes it or changes the Python installation it depends on, recreate it using these steps and select its kernel again. Do not copy the environment between computers; recreate it from the requirements file.
 
 After restarting the lab, run the relevant setup or restore cells to load paths, `project_config.json`, and AWS clients. Check saved job names and their status before starting another job. Do not run the whole notebook just to restore the session.
 
@@ -122,9 +149,11 @@ The checks:
 
 The notebook check uses `scripts/check_notebooks.py`. It reads the code without running notebook cells or starting AWS jobs. Passing this check means the Python syntax is valid; it does not prove that every calculation or AWS operation will work.
 
-To run the checks from the project folder:
+To run the checks in a Studio terminal, open the project folder and activate the project environment first:
 
 ```bash
+cd ~/AAI-540-Project/multilingual-it-ticket-routing-mlops
+source "$HOME/AAI-540-Project/envs/ticket-routing/bin/activate"
 python -m pip install -r requirements-ci.txt
 python -m compileall -q src tests scripts
 python scripts/check_notebooks.py

@@ -6,3 +6,8 @@ scipy==1.16.3
 pandas==2.3.3
 joblib==1.5.3
 threadpoolctl==3.6.0
+matplotlib==3.10.9
+pyarrow==21.0.0
+boto3==1.43.56
+botocore==1.43.56
+ipykernel==7.4.0
