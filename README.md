@@ -112,19 +112,30 @@ After restarting the lab, run the relevant setup or restore cells to load paths,
 
 ## GitHub tests and automated pipeline
 
-GitHub Actions checks Python syntax and runs **17 tests** for monitoring and prediction code. The workflow runs on pushes to `main` and `sam-aws-implementation`, and on pull requests targeting `main`.
+We use GitHub Actions to check our code whenever we push changes to `main` or `sam-aws-implementation`, or open a pull request to `main`.
 
-To run the checks from the repository folder:
+The checks:
+
+- Look for Python syntax mistakes in our scripts.
+- Look for Python syntax mistakes in our notebook cells.
+- Run 17 tests for the monitoring and prediction code.
+
+The notebook check uses `scripts/check_notebooks.py`. It reads the code without running notebook cells or starting AWS jobs. Passing this check means the Python syntax is valid; it does not prove that every calculation or AWS operation will work.
+
+To run the checks from the project folder:
 
 ```bash
 python -m pip install -r requirements-ci.txt
-python -m compileall -q src tests
+python -m compileall -q src tests scripts
+python scripts/check_notebooks.py
 python -m unittest discover -s tests -p "test_*.py" -v
 ```
 
-These tests do not need AWS credentials. The prediction tests use fixed example outputs to check the code's behavior. We checked actual model predictions separately through the SageMaker batch job.
+These checks do not need AWS credentials. The prediction tests use fixed example outputs. We checked predictions from the actual model separately through the SageMaker batch job.
 
-The saved successful GitHub run is for commit `6bc0b0b`. It is not evidence that every later change or the combined master notebook was executed successfully.
+[The GitHub run for commit `d3dfe64`](https://github.com/aditithakur-569/multilingual-it-ticket-routing-mlops/actions/runs/37712169108) passed all these checks, including syntax checks for all 11 notebooks.
+
+The earlier report in `reports/ci/github_actions_success.json` records the run for commit `6bc0b0b`.
 
 Our SageMaker pipeline runs these steps:
 
