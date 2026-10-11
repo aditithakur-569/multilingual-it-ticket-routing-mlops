@@ -1,0 +1,25 @@
+{
+  "source_model_name": "aai540-group3-routing-ce725539a788",
+  "serving_image": "683313688378.dkr.ecr.us-east-1.amazonaws.com/sagemaker-scikit-learn:1.4-2-py312-cpu-py3",
+  "serving_environment": {
+    "SAGEMAKER_CONTAINER_LOG_LEVEL": "20",
+    "SAGEMAKER_MODEL_SERVER_WORKERS": "1",
+    "SAGEMAKER_PROGRAM": "inference.py",
+    "SAGEMAKER_REGION": "us-east-1",
+    "SAGEMAKER_SUBMIT_DIRECTORY": "s3://aai540-group3-tickets-390568313988-us-east-1/aai540-group3-routing-ce725539a788/sourcedir.tar.gz"
+  },
+  "model_artifact": {
+    "uri": "s3://aai540-group3-tickets-390568313988-us-east-1/training-output/aai540-group3-lr-20261004-003353/output/model.tar.gz",
+    "version_id": "0mD8gr6TzZoUt1yzVLVR9U0XjYPLr94u",
+    "sha256": "faf5107639e5c4c05f37b2bed8e69192c6894b081cb0cab0d99bf8274585e6bb"
+  },
+  "inference_code_artifact": {
+    "uri": "s3://aai540-group3-tickets-390568313988-us-east-1/aai540-group3-routing-ce725539a788/sourcedir.tar.gz",
+    "version_id": "QDy7W_BEvov8Bs0qTlRXDmWHIacc5ggX",
+    "sha256": "625f5e308d689af92eaf480ba96c9fbcb9d5fd46798231c0943ff4a7f80b5112"
+  },
+  "inference_source_sha256": {
+    "inference.py": "5278d0a6cb8e63b227575779f33ecc0a0a16d8acf05d3f4e0767461bebdb474c",
+    "requirements.txt": "95190c729e7895af223059a24ff676b189acbf1dcff486f7666b0318ce11a9ae"
+  }
+}

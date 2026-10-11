@@ -1,0 +1,400 @@
+{
+  "Version": "2020-12-01",
+  "Parameters": [
+    {
+      "Name": "MinimumValidationMacroF1",
+      "Type": "Float",
+      "DefaultValue": 0.4
+    }
+  ],
+  "Steps": [
+    {
+      "Name": "VerifyData",
+      "Type": "Processing",
+      "Arguments": {
+        "RoleArn": "arn:aws:iam::390568313988:role/LabRole",
+        "AppSpecification": {
+          "ImageUri": "683313688378.dkr.ecr.us-east-1.amazonaws.com/sagemaker-scikit-learn:1.4-2-py312-cpu-py3",
+          "ContainerEntrypoint": [
+            "python3",
+            "/opt/ml/processing/code/verify_data.py"
+          ],
+          "ContainerArguments": [
+            "--config",
+            "/opt/ml/processing/code/pipeline_config.json",
+            "--output-dir",
+            "/opt/ml/processing/output"
+          ]
+        },
+        "ProcessingInputs": [
+          {
+            "InputName": "code",
+            "S3Input": {
+              "S3Uri": "s3://aai540-group3-tickets-390568313988-us-east-1/pipeline-code/24265b4a939ecdb3/scripts/",
+              "LocalPath": "/opt/ml/processing/code",
+              "S3DataType": "S3Prefix",
+              "S3InputMode": "File",
+              "S3DataDistributionType": "FullyReplicated"
+            }
+          }
+        ],
+        "ProcessingOutputConfig": {
+          "Outputs": [
+            {
+              "OutputName": "train",
+              "S3Output": {
+                "S3Uri": {
+                  "Std:Join": {
+                    "On": "/",
+                    "Values": [
+                      "s3://aai540-group3-tickets-390568313988-us-east-1",
+                      "pipelines",
+                      "aai540-group3-ticket-routing-pipeline",
+                      {
+                        "Get": "Execution.PipelineExecutionId"
+                      },
+                      "verified-data",
+                      "train"
+                    ]
+                  }
+                },
+                "LocalPath": "/opt/ml/processing/output/train",
+                "S3UploadMode": "EndOfJob"
+              }
+            },
+            {
+              "OutputName": "validation",
+              "S3Output": {
+                "S3Uri": {
+                  "Std:Join": {
+                    "On": "/",
+                    "Values": [
+                      "s3://aai540-group3-tickets-390568313988-us-east-1",
+                      "pipelines",
+                      "aai540-group3-ticket-routing-pipeline",
+                      {
+                        "Get": "Execution.PipelineExecutionId"
+                      },
+                      "verified-data",
+                      "validation"
+                    ]
+                  }
+                },
+                "LocalPath": "/opt/ml/processing/output/validation",
+                "S3UploadMode": "EndOfJob"
+              }
+            },
+            {
+              "OutputName": "verification",
+              "S3Output": {
+                "S3Uri": {
+                  "Std:Join": {
+                    "On": "/",
+                    "Values": [
+                      "s3://aai540-group3-tickets-390568313988-us-east-1",
+                      "pipelines",
+                      "aai540-group3-ticket-routing-pipeline",
+                      {
+                        "Get": "Execution.PipelineExecutionId"
+                      },
+                      "verified-data",
+                      "verification"
+                    ]
+                  }
+                },
+                "LocalPath": "/opt/ml/processing/output/verification",
+                "S3UploadMode": "EndOfJob"
+              }
+            }
+          ]
+        },
+        "ProcessingResources": {
+          "ClusterConfig": {
+            "InstanceCount": 1,
+            "InstanceType": "ml.m5.xlarge",
+            "VolumeSizeInGB": 20
+          }
+        },
+        "StoppingCondition": {
+          "MaxRuntimeInSeconds": 900
+        }
+      }
+    },
+    {
+      "Name": "TrainModel",
+      "Type": "Training",
+      "DependsOn": [
+        "VerifyData"
+      ],
+      "Arguments": {
+        "RoleArn": "arn:aws:iam::390568313988:role/LabRole",
+        "AlgorithmSpecification": {
+          "TrainingImage": "683313688378.dkr.ecr.us-east-1.amazonaws.com/sagemaker-scikit-learn:1.4-2-py312-cpu-py3",
+          "TrainingInputMode": "File",
+          "MetricDefinitions": [
+            {
+              "Name": "validation:accuracy",
+              "Regex": "validation:accuracy=([0-9.]+)"
+            },
+            {
+              "Name": "validation:macro_f1",
+              "Regex": "validation:macro_f1=([0-9.]+)"
+            },
+            {
+              "Name": "validation:weighted_f1",
+              "Regex": "validation:weighted_f1=([0-9.]+)"
+            }
+          ]
+        },
+        "HyperParameters": {
+          "sagemaker_container_log_level": "20",
+          "sagemaker_program": "\"train.py\"",
+          "sagemaker_region": "\"us-east-1\"",
+          "sagemaker_submit_directory": "\"s3://aai540-group3-tickets-390568313988-us-east-1/pipeline-code/24265b4a939ecdb3/training/sourcedir.tar.gz\""
+        },
+        "InputDataConfig": [
+          {
+            "ChannelName": "train",
+            "ContentType": "text/csv",
+            "DataSource": {
+              "S3DataSource": {
+                "S3DataType": "S3Prefix",
+                "S3Uri": {
+                  "Get": "Steps.VerifyData.ProcessingOutputConfig.Outputs['train'].S3Output.S3Uri"
+                },
+                "S3DataDistributionType": "FullyReplicated"
+              }
+            }
+          },
+          {
+            "ChannelName": "validation",
+            "ContentType": "text/csv",
+            "DataSource": {
+              "S3DataSource": {
+                "S3DataType": "S3Prefix",
+                "S3Uri": {
+                  "Get": "Steps.VerifyData.ProcessingOutputConfig.Outputs['validation'].S3Output.S3Uri"
+                },
+                "S3DataDistributionType": "FullyReplicated"
+              }
+            }
+          }
+        ],
+        "OutputDataConfig": {
+          "S3OutputPath": {
+            "Std:Join": {
+              "On": "/",
+              "Values": [
+                "s3://aai540-group3-tickets-390568313988-us-east-1",
+                "pipelines",
+                "aai540-group3-ticket-routing-pipeline",
+                {
+                  "Get": "Execution.PipelineExecutionId"
+                },
+                "training"
+              ]
+            }
+          }
+        },
+        "ResourceConfig": {
+          "InstanceCount": 1,
+          "InstanceType": "ml.m5.xlarge",
+          "VolumeSizeInGB": 20
+        },
+        "StoppingCondition": {
+          "MaxRuntimeInSeconds": 900
+        },
+        "ProfilerConfig": {
+          "DisableProfiler": true
+        }
+      }
+    },
+    {
+      "Name": "PrepareEvaluation",
+      "Type": "Processing",
+      "DependsOn": [
+        "TrainModel"
+      ],
+      "Arguments": {
+        "RoleArn": "arn:aws:iam::390568313988:role/LabRole",
+        "AppSpecification": {
+          "ImageUri": "683313688378.dkr.ecr.us-east-1.amazonaws.com/sagemaker-scikit-learn:1.4-2-py312-cpu-py3",
+          "ContainerEntrypoint": [
+            "python3",
+            "/opt/ml/processing/code/prepare_evaluation.py"
+          ],
+          "ContainerArguments": [
+            "--config",
+            "/opt/ml/processing/code/pipeline_config.json",
+            "--output-dir",
+            "/opt/ml/processing/output",
+            "--training-job-name",
+            {
+              "Get": "Steps.TrainModel.TrainingJobName"
+            }
+          ]
+        },
+        "ProcessingInputs": [
+          {
+            "InputName": "code",
+            "S3Input": {
+              "S3Uri": "s3://aai540-group3-tickets-390568313988-us-east-1/pipeline-code/24265b4a939ecdb3/scripts/",
+              "LocalPath": "/opt/ml/processing/code",
+              "S3DataType": "S3Prefix",
+              "S3InputMode": "File",
+              "S3DataDistributionType": "FullyReplicated"
+            }
+          }
+        ],
+        "ProcessingOutputConfig": {
+          "Outputs": [
+            {
+              "OutputName": "evaluation",
+              "S3Output": {
+                "S3Uri": {
+                  "Std:Join": {
+                    "On": "/",
+                    "Values": [
+                      "s3://aai540-group3-tickets-390568313988-us-east-1",
+                      "pipelines",
+                      "aai540-group3-ticket-routing-pipeline",
+                      {
+                        "Get": "Execution.PipelineExecutionId"
+                      },
+                      "evaluation"
+                    ]
+                  }
+                },
+                "LocalPath": "/opt/ml/processing/output",
+                "S3UploadMode": "EndOfJob"
+              }
+            }
+          ]
+        },
+        "ProcessingResources": {
+          "ClusterConfig": {
+            "InstanceCount": 1,
+            "InstanceType": "ml.m5.xlarge",
+            "VolumeSizeInGB": 20
+          }
+        },
+        "StoppingCondition": {
+          "MaxRuntimeInSeconds": 900
+        }
+      },
+      "PropertyFiles": [
+        {
+          "PropertyFileName": "ValidationReport",
+          "OutputName": "evaluation",
+          "FilePath": "evaluation.json"
+        }
+      ]
+    },
+    {
+      "Name": "CheckValidationQuality",
+      "Type": "Condition",
+      "DependsOn": [
+        "PrepareEvaluation"
+      ],
+      "Arguments": {
+        "Conditions": [
+          {
+            "Type": "GreaterThanOrEqualTo",
+            "LeftValue": {
+              "Std:JsonGet": {
+                "PropertyFile": {
+                  "Get": "Steps.PrepareEvaluation.PropertyFiles.ValidationReport"
+                },
+                "Path": "multiclass_classification_metrics.macro_f1.value"
+              }
+            },
+            "RightValue": {
+              "Get": "Parameters.MinimumValidationMacroF1"
+            }
+          },
+          {
+            "Type": "GreaterThan",
+            "LeftValue": {
+              "Std:JsonGet": {
+                "PropertyFile": {
+                  "Get": "Steps.PrepareEvaluation.PropertyFiles.ValidationReport"
+                },
+                "Path": "accuracy_improvement"
+              }
+            },
+            "RightValue": 0.0
+          }
+        ],
+        "IfSteps": [
+          {
+            "Name": "RegisterModelForReview",
+            "Type": "RegisterModel",
+            "Arguments": {
+              "ModelPackageGroupName": "aai540-group3-ticket-routing",
+              "ModelPackageDescription": "Pipeline-trained ticket-routing model. Passed validation checks; requires team review.",
+              "ModelApprovalStatus": "PendingManualApproval",
+              "InferenceSpecification": {
+                "Containers": [
+                  {
+                    "Image": "683313688378.dkr.ecr.us-east-1.amazonaws.com/sagemaker-scikit-learn:1.4-2-py312-cpu-py3",
+                    "ModelDataUrl": {
+                      "Get": "Steps.TrainModel.ModelArtifacts.S3ModelArtifacts"
+                    },
+                    "Environment": {
+                      "SAGEMAKER_CONTAINER_LOG_LEVEL": "20",
+                      "SAGEMAKER_MODEL_SERVER_WORKERS": "1",
+                      "SAGEMAKER_PROGRAM": "inference.py",
+                      "SAGEMAKER_REGION": "us-east-1",
+                      "SAGEMAKER_SUBMIT_DIRECTORY": "s3://aai540-group3-tickets-390568313988-us-east-1/aai540-group3-routing-ce725539a788/sourcedir.tar.gz"
+                    }
+                  }
+                ],
+                "SupportedTransformInstanceTypes": [
+                  "ml.m5.xlarge"
+                ],
+                "SupportedContentTypes": [
+                  "application/jsonlines"
+                ],
+                "SupportedResponseMIMETypes": [
+                  "application/jsonlines"
+                ]
+              },
+              "ModelMetrics": {
+                "ModelQuality": {
+                  "Statistics": {
+                    "ContentType": "application/json",
+                    "S3Uri": {
+                      "Std:Join": {
+                        "On": "/",
+                        "Values": [
+                          {
+                            "Get": "Steps.PrepareEvaluation.ProcessingOutputConfig.Outputs['evaluation'].S3Output.S3Uri"
+                          },
+                          "evaluation.json"
+                        ]
+                      }
+                    }
+                  }
+                }
+              },
+              "CustomerMetadataProperties": {
+                "pipeline_code_id": "24265b4a939ecdb3",
+                "evaluation_split": "validation",
+                "selection_metric": "validation_macro_f1"
+              }
+            }
+          }
+        ],
+        "ElseSteps": [
+          {
+            "Name": "StopForQualityReview",
+            "Type": "Fail",
+            "Arguments": {
+              "ErrorMessage": "Validation quality gate failed. Macro F1 must meet the configured minimum, and accuracy must exceed the majority-class benchmark. No model was registered."
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

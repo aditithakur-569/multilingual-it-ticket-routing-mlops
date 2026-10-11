@@ -1,0 +1,26 @@
+{
+  "evaluation_split": "test",
+  "evaluated_tickets": 4428,
+  "training_job_name": "aai540-group3-lr-20261004-003353",
+  "model_selection_metric": "validation_macro_f1",
+  "evaluation_dataset": {
+    "uri": "s3://aai540-group3-tickets-390568313988-us-east-1/datasets/c142eef90e9f/split-v1-seed42/splits/test/test.csv",
+    "version_id": "AP02k.QrisYCHUnbLRuMfwesACXLSBQP"
+  },
+  "multiclass_classification_metrics": {
+    "accuracy": {
+      "value": 0.4634146341463415
+    },
+    "macro_f1": {
+      "value": 0.4463850582832519
+    },
+    "weighted_f1": {
+      "value": 0.46530022063922544
+    }
+  },
+  "limitations": [
+    "Current accuracy is insufficient to establish readiness for fully automatic ticket routing.",
+    "Performance differs across queues and languages.",
+    "Small test samples limit conclusions for Spanish, French, and Portuguese."
+  ]
+}

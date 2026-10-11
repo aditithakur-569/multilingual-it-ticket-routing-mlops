@@ -1,0 +1,43 @@
+{
+  "checked_at": "2026-10-04T15:11:54.200801+00:00",
+  "status": "PASS",
+  "ticket_ids_disjoint": true,
+  "datasets": {
+    "train": {
+      "uri": "s3://aai540-group3-tickets-390568313988-us-east-1/features/c142eef90e9f/v1/1791069813914010/train.csv",
+      "version_id": "EhnzhzJ8jWpfHww4aXrrH7VnZoBKmlJq",
+      "sha256": "02097566a767f6d195fdea1c3c556faa69805d9ec3ef9952d08de30542cb962c",
+      "rows": 17710,
+      "queue_labels": [
+        "Billing and Payments",
+        "Customer Service",
+        "General Inquiry",
+        "Human Resources",
+        "IT Support",
+        "Product Support",
+        "Returns and Exchanges",
+        "Sales and Pre-Sales",
+        "Service Outages and Maintenance",
+        "Technical Support"
+      ]
+    },
+    "validation": {
+      "uri": "s3://aai540-group3-tickets-390568313988-us-east-1/features/c142eef90e9f/v1/1791069813914010/validation.csv",
+      "version_id": "DM7G85YB4.48liLi7mhxh504rmd11yfU",
+      "sha256": "b746b453ddc5e4e30eb78713a21c33d79be1576188dc75579e9d2795fec8238a",
+      "rows": 4428,
+      "queue_labels": [
+        "Billing and Payments",
+        "Customer Service",
+        "General Inquiry",
+        "Human Resources",
+        "IT Support",
+        "Product Support",
+        "Returns and Exchanges",
+        "Sales and Pre-Sales",
+        "Service Outages and Maintenance",
+        "Technical Support"
+      ]
+    }
+  }
+}

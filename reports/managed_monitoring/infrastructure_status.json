@@ -1,0 +1,26 @@
+{
+  "checked_at": "2026-10-04T14:41:32.148403+00:00",
+  "jobs": [
+    {
+      "job_type": "training",
+      "job_name": "aai540-group3-lr-20261004-003353",
+      "aws_status": "Completed",
+      "check_status": "OK",
+      "duration_seconds": 118.783,
+      "start_time": "2026-10-04T00:34:32.822000+00:00",
+      "end_time": "2026-10-04T00:36:31.605000+00:00",
+      "failure_reason": null
+    },
+    {
+      "job_type": "batch_prediction",
+      "job_name": "aai540-group3-batch-20261004-045734",
+      "aws_status": "Completed",
+      "check_status": "OK",
+      "duration_seconds": 72.528,
+      "start_time": "2026-10-04T04:59:54.866000+00:00",
+      "end_time": "2026-10-04T05:01:07.394000+00:00",
+      "failure_reason": null
+    }
+  ],
+  "alert_count": 0
+}

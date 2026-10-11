@@ -1,0 +1,14 @@
+{
+  "batch_job_name": "aai540-group3-batch-20261004-045734",
+  "ground_truth_source": {
+    "uri": "s3://aai540-group3-tickets-390568313988-us-east-1/datasets/c142eef90e9f/split-v1-seed42/ground_truth/production_labels.csv",
+    "version_id": "ZwrRS1ROPyAcmAr3Otn16Yk9faI5N7ox"
+  },
+  "metrics": {
+    "evaluation_split": "simulated_production",
+    "tickets": 17712,
+    "accuracy": 0.4591237579042457,
+    "macro_f1": 0.4379727744255188,
+    "weighted_f1": 0.4605194849461991
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "checked_at": "2026-10-04T05:41:38.038460+00:00",
+  "alarms": [
+    {
+      "name": "AAI540-Group3-DataQuality",
+      "arn": "arn:aws:cloudwatch:us-east-1:390568313988:alarm:AAI540-Group3-DataQuality",
+      "metric": "DataAlertCount",
+      "state": "INSUFFICIENT_DATA"
+    },
+    {
+      "name": "AAI540-Group3-Infrastructure",
+      "arn": "arn:aws:cloudwatch:us-east-1:390568313988:alarm:AAI540-Group3-Infrastructure",
+      "metric": "InfrastructureAlertCount",
+      "state": "OK"
+    },
+    {
+      "name": "AAI540-Group3-ModelQuality",
+      "arn": "arn:aws:cloudwatch:us-east-1:390568313988:alarm:AAI540-Group3-ModelQuality",
+      "metric": "ModelQualityAlertCount",
+      "state": "INSUFFICIENT_DATA"
+    }
+  ]
+}

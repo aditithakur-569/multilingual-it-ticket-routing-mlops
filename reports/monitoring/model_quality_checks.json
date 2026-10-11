@@ -1,0 +1,38 @@
+{
+  "batch_job_name": "aai540-group3-batch-20261004-045734",
+  "training_job_name": "aai540-group3-lr-20261004-003353",
+  "reference_split": "test",
+  "reference_source": {
+    "uri": "s3://aai540-group3-tickets-390568313988-us-east-1/datasets/c142eef90e9f/split-v1-seed42/splits/test/test.csv",
+    "version_id": "AP02k.QrisYCHUnbLRuMfwesACXLSBQP"
+  },
+  "production_report_source": {
+    "uri": "s3://aai540-group3-tickets-390568313988-us-east-1/monitoring/aai540-group3-batch-20261004-045734/production_quality.json",
+    "version_id": "KyeOj7N6z3A07Y311KduKs4BL3yF0lJn"
+  },
+  "allowed_absolute_drop": 0.05,
+  "checks": [
+    {
+      "metric": "accuracy",
+      "test_reference": 0.4634146341463415,
+      "production_value": 0.4591237579042457,
+      "minimum_allowed": 0.4134146341463415,
+      "status": "OK"
+    },
+    {
+      "metric": "macro_f1",
+      "test_reference": 0.4463850582832519,
+      "production_value": 0.4379727744255188,
+      "minimum_allowed": 0.39638505828325193,
+      "status": "OK"
+    },
+    {
+      "metric": "weighted_f1",
+      "test_reference": 0.46530022063922544,
+      "production_value": 0.4605194849461991,
+      "minimum_allowed": 0.41530022063922545,
+      "status": "OK"
+    }
+  ],
+  "alert_count": 0
+}

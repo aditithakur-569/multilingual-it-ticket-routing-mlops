@@ -1,0 +1,15 @@
+{
+  "checked_at": "2026-10-04T14:41:32.148403+00:00",
+  "batch_job_name": "aai540-group3-batch-20261004-045734",
+  "production_rows": 17712,
+  "metrics": {
+    "accuracy": 0.4591237579042457,
+    "macro_f1": 0.4379727744255188,
+    "weighted_f1": 0.4605194849461991
+  },
+  "data_alert_count": 0,
+  "model_alert_count": 0,
+  "infrastructure_alert_count": 0,
+  "cloudwatch_metrics_published": true,
+  "metric_count": 18
+}

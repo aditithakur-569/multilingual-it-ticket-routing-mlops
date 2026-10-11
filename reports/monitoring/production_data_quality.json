@@ -1,0 +1,69 @@
+{
+  "reference_source": {
+    "uri": "s3://aai540-group3-tickets-390568313988-us-east-1/datasets/c142eef90e9f/split-v1-seed42/splits/train/train.csv",
+    "version_id": "uLc4u_l5fgp.zsc.79.ndoGtD69_vdiE"
+  },
+  "production_source": {
+    "uri": "s3://aai540-group3-tickets-390568313988-us-east-1/datasets/c142eef90e9f/split-v1-seed42/splits/production/production.csv",
+    "version_id": "ueVaDs4yd6YU6A5Jle_B0tyo7o4H4aT0"
+  },
+  "production_rows": 17712,
+  "thresholds": {
+    "distribution_distance": 0.1,
+    "missing_rate_increase": 0.05,
+    "empty_text_rate": 0.0,
+    "unknown_language_rate": 0.0,
+    "unseen_language_rate": 0.0
+  },
+  "checks": [
+    {
+      "check": "language_distribution",
+      "value": 0.00416947207774354,
+      "threshold": 0.1,
+      "status": "OK"
+    },
+    {
+      "check": "text_char_count_distribution",
+      "value": 0.012703328543731511,
+      "threshold": 0.1,
+      "status": "OK"
+    },
+    {
+      "check": "text_word_count_distribution",
+      "value": 0.010276055000339193,
+      "threshold": 0.1,
+      "status": "OK"
+    },
+    {
+      "check": "missing_subject_rate_increase",
+      "value": 0.0008352346369313451,
+      "threshold": 0.05,
+      "status": "OK"
+    },
+    {
+      "check": "missing_body_rate_increase",
+      "value": 0.00011291779584462511,
+      "threshold": 0.05,
+      "status": "OK"
+    },
+    {
+      "check": "empty_text_rate",
+      "value": 0.0,
+      "threshold": 0.0,
+      "status": "OK"
+    },
+    {
+      "check": "unknown_language_rate",
+      "value": 0.0,
+      "threshold": 0.0,
+      "status": "OK"
+    },
+    {
+      "check": "unseen_language_rate",
+      "value": 0.0,
+      "threshold": 0.0,
+      "status": "OK"
+    }
+  ],
+  "alert_count": 0
+}

@@ -1,0 +1,10 @@
+{
+  "pipeline_name": "aai540-group3-ticket-routing-pipeline",
+  "pipeline_arn": "arn:aws:sagemaker:us-east-1:390568313988:pipeline/aai540-group3-ticket-routing-pipeline",
+  "status": "Active",
+  "definition_sha256": "3668b5264c4f3a0256211eb1298980dbbbb0f6de974539bcf61229989289f6f4",
+  "definition_matches": true,
+  "execution_role": "arn:aws:iam::390568313988:role/LabRole",
+  "maximum_parallel_steps": 1,
+  "action": "Created"
+}

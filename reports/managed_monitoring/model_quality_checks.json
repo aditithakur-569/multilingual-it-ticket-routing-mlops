@@ -1,0 +1,35 @@
+{
+  "batch_job_name": "aai540-group3-batch-20261004-045734",
+  "reference_metrics": {
+    "model": "Managed Logistic Regression",
+    "evaluation_split": "test",
+    "accuracy": 0.4634146341463415,
+    "macro_f1": 0.4463850582832519,
+    "weighted_f1": 0.46530022063922544
+  },
+  "allowed_absolute_drop": 0.05,
+  "checks": [
+    {
+      "metric": "accuracy",
+      "test_reference": 0.4634146341463415,
+      "production_value": 0.4591237579042457,
+      "minimum_allowed": 0.4134146341463415,
+      "status": "OK"
+    },
+    {
+      "metric": "macro_f1",
+      "test_reference": 0.4463850582832519,
+      "production_value": 0.4379727744255188,
+      "minimum_allowed": 0.39638505828325193,
+      "status": "OK"
+    },
+    {
+      "metric": "weighted_f1",
+      "test_reference": 0.46530022063922544,
+      "production_value": 0.4605194849461991,
+      "minimum_allowed": 0.41530022063922545,
+      "status": "OK"
+    }
+  ],
+  "alert_count": 0
+}

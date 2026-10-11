@@ -1,0 +1,43 @@
+{
+  "checked_at": "2026-10-05T05:22:51.889267+00:00",
+  "bucket": "aai540-group3-tickets-390568313988-us-east-1",
+  "checks": {
+    "versioning": {
+      "read_status": "Retrieved",
+      "settings": {
+        "Status": "Enabled"
+      }
+    },
+    "default_encryption": {
+      "read_status": "Retrieved",
+      "settings": {
+        "ServerSideEncryptionConfiguration": {
+          "Rules": [
+            {
+              "ApplyServerSideEncryptionByDefault": {
+                "SSEAlgorithm": "AES256"
+              },
+              "BucketKeyEnabled": false,
+              "BlockedEncryptionTypes": {
+                "EncryptionType": [
+                  "SSE-C"
+                ]
+              }
+            }
+          ]
+        }
+      }
+    },
+    "bucket_public_access_block": {
+      "read_status": "Retrieved",
+      "settings": {
+        "PublicAccessBlockConfiguration": {
+          "BlockPublicAcls": true,
+          "IgnorePublicAcls": true,
+          "BlockPublicPolicy": true,
+          "RestrictPublicBuckets": true
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "evaluation_split": "validation",
+  "training_job_name": "pipelines-un5qr81r60u7-TrainModel-OoBqclskQ3",
+  "training_rows": 17710,
+  "evaluated_tickets": 4428,
+  "multiclass_classification_metrics": {
+    "accuracy": {
+      "value": 0.45573622402890696
+    },
+    "macro_f1": {
+      "value": 0.43616079833313764
+    },
+    "weighted_f1": {
+      "value": 0.4569255989374723
+    }
+  },
+  "benchmark": {
+    "accuracy": 0.2958446251129178,
+    "macro_f1": 0.04566050888811433,
+    "weighted_f1": 0.13508416134469234
+  },
+  "accuracy_improvement": 0.15989159891598914,
+  "evaluation_dataset": {
+    "uri": "s3://aai540-group3-tickets-390568313988-us-east-1/features/c142eef90e9f/v1/1791069813914010/validation.csv",
+    "version_id": "DM7G85YB4.48liLi7mhxh504rmd11yfU",
+    "rows": 4428,
+    "sha256": "b746b453ddc5e4e30eb78713a21c33d79be1576188dc75579e9d2795fec8238a"
+  }
+}

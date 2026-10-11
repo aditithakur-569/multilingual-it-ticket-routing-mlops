@@ -1,0 +1,66 @@
+{
+  "aws_region": "us-east-1",
+  "training_job_name": "aai540-group3-lr-20261004-003353",
+  "batch_job_name": "aai540-group3-batch-20261004-045734",
+  "training_baseline": {
+    "uri": "s3://aai540-group3-tickets-390568313988-us-east-1/monitoring/aai540-group3-batch-20261004-045734/training_data_baseline.json",
+    "version_id": "gHKuxvH6iR73dHenrgc2Je8Xtp5azFya",
+    "sha256": "c8614cde6091d7ccee3646ccb793c4d10470827073235e21f92f5a37483bf8ec"
+  },
+  "production_data": {
+    "uri": "s3://aai540-group3-tickets-390568313988-us-east-1/datasets/c142eef90e9f/split-v1-seed42/splits/production/production.csv",
+    "version_id": "ueVaDs4yd6YU6A5Jle_B0tyo7o4H4aT0"
+  },
+  "production_labels": {
+    "uri": "s3://aai540-group3-tickets-390568313988-us-east-1/datasets/c142eef90e9f/split-v1-seed42/ground_truth/production_labels.csv",
+    "version_id": "ZwrRS1ROPyAcmAr3Otn16Yk9faI5N7ox"
+  },
+  "prediction_artifacts": [
+    {
+      "uri": "s3://aai540-group3-tickets-390568313988-us-east-1/batch/ce725539a788/predictions/production.jsonl.out",
+      "version_id": "lepv2pFNgM3fJVhMHweJ2DLylAgqonPk",
+      "sha256": "9c74bba5e20dd8dc907a65a79dc849ebef08cfc99d00bb6e56d6104bb825d8af"
+    }
+  ],
+  "expected_production_rows": 17712,
+  "queue_labels": [
+    "Billing and Payments",
+    "Customer Service",
+    "General Inquiry",
+    "Human Resources",
+    "IT Support",
+    "Product Support",
+    "Returns and Exchanges",
+    "Sales and Pre-Sales",
+    "Service Outages and Maintenance",
+    "Technical Support"
+  ],
+  "reference_metrics": {
+    "model": "Managed Logistic Regression",
+    "evaluation_split": "test",
+    "accuracy": 0.4634146341463415,
+    "macro_f1": 0.4463850582832519,
+    "weighted_f1": 0.46530022063922544
+  },
+  "data_thresholds": {
+    "distribution_distance": 0.1,
+    "missing_rate_increase": 0.05,
+    "empty_text_rate": 0.0,
+    "unknown_language_rate": 0.0,
+    "unseen_language_rate": 0.0
+  },
+  "model_allowed_absolute_drop": 0.05,
+  "cloudwatch": {
+    "namespace": "AAI540/TicketRouting",
+    "dimensions": [
+      {
+        "Name": "Project",
+        "Value": "aai540-group3"
+      },
+      {
+        "Name": "Environment",
+        "Value": "simulated-production"
+      }
+    ]
+  }
+}

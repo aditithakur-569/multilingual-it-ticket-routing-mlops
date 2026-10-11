@@ -1,0 +1,15 @@
+{
+  "PipelineName": "aai540-group3-ticket-routing-pipeline",
+  "PipelineExecutionDisplayName": "first-run-3668b5264c4f",
+  "PipelineExecutionDescription": "First verified run: data checks, frozen model training, validation quality gate, and registration for manual review.",
+  "PipelineParameters": [
+    {
+      "Name": "MinimumValidationMacroF1",
+      "Value": "0.4"
+    }
+  ],
+  "ParallelismConfiguration": {
+    "MaxParallelExecutionSteps": 1
+  },
+  "ClientRequestToken": "ffe7a719-14f6-5826-a112-f89982772916"
+}

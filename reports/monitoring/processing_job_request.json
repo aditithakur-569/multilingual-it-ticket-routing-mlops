@@ -1,0 +1,52 @@
+{
+  "ProcessingJobName": "aai540-group3-monitor-20261004-143912",
+  "RoleArn": "arn:aws:iam::390568313988:role/LabRole",
+  "AppSpecification": {
+    "ImageUri": "683313688378.dkr.ecr.us-east-1.amazonaws.com/sagemaker-scikit-learn:1.4-2-py312-cpu-py3",
+    "ContainerEntrypoint": [
+      "python3",
+      "/opt/ml/processing/code/run_monitoring.py"
+    ],
+    "ContainerArguments": [
+      "--config",
+      "/opt/ml/processing/code/monitoring_config.json",
+      "--output-dir",
+      "/opt/ml/processing/output",
+      "--publish-metrics"
+    ]
+  },
+  "ProcessingInputs": [
+    {
+      "InputName": "monitoring-code",
+      "S3Input": {
+        "S3Uri": "s3://aai540-group3-tickets-390568313988-us-east-1/monitoring-code/6cee6ea2c32d6191/",
+        "LocalPath": "/opt/ml/processing/code",
+        "S3DataType": "S3Prefix",
+        "S3InputMode": "File",
+        "S3DataDistributionType": "FullyReplicated"
+      }
+    }
+  ],
+  "ProcessingOutputConfig": {
+    "Outputs": [
+      {
+        "OutputName": "monitoring-reports",
+        "S3Output": {
+          "S3Uri": "s3://aai540-group3-tickets-390568313988-us-east-1/monitoring-jobs/aai540-group3-monitor-20261004-143912/reports/",
+          "LocalPath": "/opt/ml/processing/output",
+          "S3UploadMode": "EndOfJob"
+        }
+      }
+    ]
+  },
+  "ProcessingResources": {
+    "ClusterConfig": {
+      "InstanceCount": 1,
+      "InstanceType": "ml.m5.xlarge",
+      "VolumeSizeInGB": 20
+    }
+  },
+  "StoppingCondition": {
+    "MaxRuntimeInSeconds": 900
+  }
+}
