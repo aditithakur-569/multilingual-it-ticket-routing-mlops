@@ -14,7 +14,7 @@ Our selected model uses TF-IDF and Logistic Regression. It performs better than 
 
 - [GitHub Projects board](https://github.com/users/aditithakur-569/projects/1)
 - [Kaggle dataset](https://www.kaggle.com/datasets/tobiasbueck/multilingual-customer-support-tickets/data)
-- [Recorded successful GitHub Actions run](https://github.com/aditithakur-569/multilingual-it-ticket-routing-mlops/actions/runs/37259244337)
+- [Latest verified GitHub Actions run (`25a56ab`)](https://github.com/aditithakur-569/multilingual-it-ticket-routing-mlops/actions/runs/37733685514)
 - AWS implementation branch: `sam-aws-implementation`
 
 ## Start here
@@ -59,9 +59,11 @@ We excluded answers and tags to reduce the risk of using information that would 
 | Model and evaluation split | Accuracy | Macro F1 | Weighted F1 |
 |---|---:|---:|---:|
 | Majority-class benchmark — test | 0.2956 | 0.0456 | 0.1349 |
-| Selected Logistic Regression — validation | 0.4557 | 0.4362 | 0.4569 |
+| SageMaker-trained Logistic Regression — validation | 0.4557 | 0.4362 | 0.4569 |
 | Selected Logistic Regression — test | 0.4634 | 0.4464 | 0.4653 |
 | Selected Logistic Regression — simulated production | 0.4591 | 0.4380 | 0.4605 |
+
+The validation row above is from the SageMaker training job. The earlier notebook tuning result was slightly different: accuracy 0.4553, macro F1 0.4358, and weighted F1 0.4565. Both used the selected settings. We kept the reports from each run separately.
 
 We chose model settings using validation results. We did not use the test or production scores to tune those settings.
 
@@ -162,7 +164,7 @@ python -m unittest discover -s tests -p "test_*.py" -v
 
 These checks do not need AWS credentials. The prediction tests use fixed example outputs. We checked predictions from the actual model separately through the SageMaker batch job.
 
-[The GitHub run for commit `d3dfe64`](https://github.com/aditithakur-569/multilingual-it-ticket-routing-mlops/actions/runs/37712169108) passed syntax checks for all 11 notebooks and the 17 tests available at that time. We then added five monitoring tests and confirmed that all 22 tests passed locally.
+[The GitHub run for commit `25a56ab`](https://github.com/aditithakur-569/multilingual-it-ticket-routing-mlops/actions/runs/37733685514) passed all 22 tests, the Python script syntax check, and syntax checks for all 11 notebooks. This is the latest run we verified for this review. These checks did not execute the notebook cells or rerun AWS jobs.
 
 The earlier report in `reports/ci/github_actions_success.json` records the run for commit `6bc0b0b`.
 
@@ -191,9 +193,11 @@ Our custom monitoring code runs in a SageMaker Processing job. It checks:
 - Changes in accuracy, macro F1, and weighted F1.
 - Training and batch job status and duration.
 
-We publish **18 custom metrics** to CloudWatch. The dashboard is `AAI540-Group3-Ticket-Monitoring` in `us-east-1`.
+Our completed SageMaker monitoring run published **18 custom metrics** to CloudWatch. We later updated the monitoring code so job failures are still reported when prediction files are missing. Unavailable checks include a reason, and their missing scores are not sent as zeros. We tested this update locally; the saved AWS reports are from the earlier run. The dashboard is `AAI540-Group3-Ticket-Monitoring` in `us-east-1`.
 
 We run monitoring manually. CloudWatch alarms are configured, but notification actions are disabled. Zero alerts means our configured checks passed for that run; it does not mean the model's overall accuracy is high enough for real use. We have not added CPU, memory, or live-service monitoring.
+
+We kept the dashboard from the completed monitoring job in `reports/monitoring/cloudwatch_dashboard.json`. The dashboard archive entry in `project_config.json` refers to an earlier saved S3 snapshot, so its hash differs from this local file. We kept that older version record for reference.
 
 Registry **version 1** is the original tested model used for batch predictions. **Version 2** was trained by the pipeline and evaluated on validation data. The test and production scores in this README belong to version 1. Both versions were left pending manual approval.
 
